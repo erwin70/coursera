@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecteren en stylen</title>
+</head>
+<body>
+
+<!-- 
+    voor het iets duidelijker te maken gebruiken we CSS in onze HTML
+    normaal link je naar bv style.css door code hieronder in de header te zetten
+    <link rel="stylesheet" href="style.css"/>
+-->
+
+
+   <style>
+    h1 {
+        color: red;           /* de tekstkleur */
+    }
+
+    #header1 {                  /* een id */
+        color: green;
+    }
+
+    .nr1 {                     /* een class */
+        color: yellow;
+    }
+
+    #nr1 h1 {
+        color: purple;
+    }
+
+    a:hover {
+        color: orange;      /* de kleur die je geeft aan een link <a> wonneer je er over gaat met muis */
+    }
+
+   </style> 
+
+   <h1 id="header1">Chapter one</h1>
+   <p>The first chapter</p>
+
+   <h1 class="nr1">Chapter two</h1>
+   <p>The second chapter</p>
+
+   <div id="nr1">
+    <h1>Chapter three</h1>
+    <p>The third Chapter</p>
+   </div>
+
+   <h1>Chapter four</h1>
+   <p>The fourth chapter</p>
+   <a>link</a>
+</body>
+</html>
