@@ -1,1 +1,1 @@
-clone https://github.com/erwin70/coursera.git
+git clone https://github.com/erwin70/coursera.git
