@@ -2,6 +2,6 @@ git status
 
 git add *
 
-git commit -m "commentaar"
+git commit -m "10 juli 25"
 
 git push
