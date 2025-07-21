@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <?php
+// alle tekt hier is info en ziet de gebruiker niet
+# ook deze kan gebruikt worden
+/*
+en ook deze
+voor meerdere lijnen
+*/
+
+# je kan print of echo gebruike maar echo is sneller en je kan "Hallo" of 'Hallo' gebruiken
+
+# Klassen en functies zijn niet hoofdletter gevoelig
+echo "Hallo world<br>";
+Echo "dit kan ook<br>";
+echO "en dit ook<br><br>";
+
+# Variabelen zijn wel hoofdlettergevoelig
+$kleur = "rood";
+$Kleur = "Blauw";
+$kleuR = "groeN";
+echo "Mijn kleur is ".$kleur."!<br>";
+echo "Mijn kleur is ".$Kleur."!<br>";
+echo "Mijn kleur is ".$kleuR."!<br><br>";
+
+# Rekenen
+$x = 5;
+$y = 4;
+echo $x + $y ;
+echo "<br>";
+
+$a = 1; // globaal bereik
+ 
+function myTest() {
+ // gebruik van de variable x binnen de functie geeft een error
+  echo "<p>Variable x binnen de functie is: $a</p>";
+} 
+myTest();
+
+echo "<p>Variable x buiten de functie is: $a</p>";
+
+function myTest1() {
+  $b = 2; // locaal bereik
+  echo "<p>Variable x binnen de functie is: $b</p>";
+}
+myTest1();
+
+// gebruik van de variable x buiten de functie geeft een error
+echo "<p>Variable x buiten de functie is: $b</p>";
+
+// bij gebruik van de variable x van buiten de functie gaat deze dus vooraf met global
+$c = 3;
+$d = 4;
+
+function myTest3() {
+  global $c, $d;
+  $d = $c + $d;
+}
+
+myTest3();
+echo $d; // de variable is veranderd naar uitkomst 3 + 4 = 7
+echo "<br>";
+echo $a;
+echo "<br>";
+echo $b;
+// deze wordt niet getoond omdat deze binnen de functie staat
+echo "<br>";
+echo $c;
+echo "<br>";
+echo $d;
+echo "<br>";
+echo "<br>";
+
+#static berijk
+function myTest4() {
+  static $x = 0;
+  echo $x;
+  $x++;
+}
+
+myTest4();
+echo "<br>";
+myTest4();
+echo "<br>";
+myTest4();
+echo "<br>";
+echo "<br>";
+
+# De PHP-functie var_dump () retourneert het gegevenstype en de waarde:
+$f = 10.365;
+$i = 10365;
+var_dump($i,$f);
+echo "<br>";
+
+$cars = array("Volvo","BMW","Toyota");
+var_dump($cars);
+
+?>
+
+</body>
+</html>

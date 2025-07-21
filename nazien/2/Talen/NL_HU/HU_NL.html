@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<title>Overzicht cursus javascript Brugge</title>
+  
+    <script type="text/javascript">
+
+var NL = new Array();
+var HU = "";
+    
+// var NL = ["nul","een","twee","drie","vier","vijf","zes","zeven","acht","negen"];
+// var HU = ["nulla","egy","kettő","három","négy"."öt","hat","hét","nyolc","kilenc"];
+    
+while((HU = prompt("Voer een hongaars woord in, laat leeg om te stoppen.")) != "")
+    {
+        NL[HU] = prompt(Voer het nederlandse woord van "+HU+", '');
+    }
+ for (HU in NL)
+    {
+        document.write(NL+": "+HU[NL]+",br/>");
+    }
+</script>
+
+    
+</head>
+    
+<body>
+ 
+</body>
+</html>

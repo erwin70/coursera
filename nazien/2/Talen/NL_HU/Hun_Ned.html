@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl" lang="nl">
+ <head>
+  <title>NL naar HU</title>
+     
+  <script type="text/javascript"> 
+var hongaars = 0;    
+const Hu = ["nulla","egy","kettő","három","négy","ot"];     
+var nederlands = 0;   
+const Nl = ["nul","een","twee","drie","vier","vijf"];  
+  </script>
+     
+     <script>
+      function vorigWoord() {
+           if (hongaars === 0) {hongaars = Hu.length -1;}
+           else hongaars--;
+          
+      document.getElementById("hongaars").innerHTML = Hu[hongaars];
+          if (hongaars === 0) {hongaars = Hu.length;}
+          
+          if (nederlands === 0) {nederlands = Nl.length -1;}
+          else nederlands--;
+ 
+      document.getElementById("nederlands").innerHTML = Nl[nederlands];
+          if (nederlands === 0) {nederlands = Nl.length;}
+          
+      }
+      </script>
+
+     <script>
+     function volgendWoord() {
+          if (hongaars === Hu.length-1) {hongaars = 0;}
+          else hongaars++;
+     document.getElementById ("hongaars").innerHTML = Hu[hongaars];
+       //  if (hongaars === Hu.length-1) {hongaars = -1;}
+         
+         if (nederlands === Nl.length-1) {nederlands = 0;}
+         else nederlands++;
+     document.getElementById("nederlands").innerHTML = Nl[nederlands];
+         // if (nederlands === Nl.length-1) {nederlands = -1;}
+         
+     }
+     </script> 
+     
+     <script>
+      function play() {
+          
+        var audio = document.getElementById("audio");
+        var audio1 = document.getElementById("audio1");
+        var x = document.getElementById("audio").ended; 
+       
+        audio.play();
+        audio.onended = function(){audio1.play();}
+        
+        }
+    </script>
+     
+ </head>
+    
+ <body>
+     
+     <p id="mp3"></p>
+     
+     <script>
+     var mp3 = hongaars +1 +".mp3";
+     document.getElementById("mp3").innerHTML = mp3;
+     </script>
+
+     
+     <center>
+<table table width="100%" table height="400" border="0" bgcolor= "#eaf4ba">
+<tr height="35%"><td></td><td colspan=4><center><b id="hongaars"></b>
+    <script>document.getElementById("hongaars").innerHTML = Hu[0];</script>
+    </center></td><td></td></tr>
+<tr height="35%"><td><center><button onclick="vorigWoord()">&#8249;&#8249;</button></center></td> <td colspan=4><center><b id="nederlands"></b>
+        <script>document.getElementById("nederlands").innerHTML = Nl[0];</script></center></td>
+    <td><center><button onclick="volgendWoord()">&#8250;&#8250;</button></center></td></tr>
+<tr height="30%"><td></td> <td><center><button onclick="naarHuis()">HOME</button></center></td> <td><center><button onclick="duimOmhoog()">I KNOW</button></center></td> <td><center><button onclick="duimOmlaag()">NOT NOW</button></center></td>
+                  <td><center> <input type="button" value="PLAY" onclick="play()">
+                      <audio id="audio" src="geluid/HU/1.mp3"</audio>          
+                      <audio id="audio1" src="geluid/NL/1.mp3"></audio>  </center></td> <td></td></tr>
+</table>
+</center>
+     
+ </body>
+    
+</html>

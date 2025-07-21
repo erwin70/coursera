@@ -1,4 +1,0 @@
-cd ..
-dir
-git status
-mkdir

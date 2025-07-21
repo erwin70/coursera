@@ -1,0 +1,1 @@
+DROP TABLE `post`; /* Verwijder de tabel post */

@@ -1,0 +1,28 @@
+<head>
+    
+    <title>NL naar HU</title>
+    </head>
+<body>
+<script>
+  var index = 1;
+// functie laadt nieuwe mp3 en start daarna afspelen -->
+function wijzigAudio(mp3bestand) {
+  
+  var audio  = document.getElementById("audio");
+  var source = document.getElementById("audioSource");
+  source.src = mp3bestand;
+  audio.load();
+  audio.play();
+}
+</script>
+
+<!-- alleen voor demo/test -->
+<button type="button" onclick="wijzigAudio('geluid/NL/'+index +'.mp3')">NL</button>
+<button type="button" onclick="wijzigAudio('geluid/HU/'+index +'.mp3')">HU</button>
+<br><br>
+
+<!-- audiospeler -->
+<audio id="audio" controls="controls" style="display:none;">
+<source id="audioSource" src=""></audio>
+
+</body>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> JavaScript in eigen woorden</title>
+       <meta charset="UTF-8">
+       <meta name="author" content="Erwin Leemans">
+       <meta name="keywords" content="JavaScript, cursus">
+       <meta name="description" content=" In eenvoudige taal JavaScript uitgelegd">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>  
+<body> </body> 
+<script>
+/* Iets in de console laten verschijnen gebeurd met console.log ('Hier voer je in wat er moet verschijnen');
+   bij een nummer (number) gebrijk je geen aanhalingstekens
+   bij een tekenreeks (string) wel je kan gebruik maken van "" of '' of `` (backtick)
+   bij een waar/nietwaar (boolean) is het true of false zonder aanhalingstekens
+   een (keyword) is bv 'var' of 'let' en mag niet gebruikt worden als naam, die zijn gereserveerd door de programmatietaal zelf
+*/
+
+    console.log ("Hello Erwin");
+
+    let voornaam = "Erwin";
+    let achternaam = "Leemans";
+    let volledigeNaam = voornaam + " " + achternaam;
+    let leeftijd = 53;
+
+    console.log(volledigeNaam);                // Erwin Leemans
+    console.log(voornaam === "Erwin");         // true
+    console.log("leeftijd = " + leeftijd);     // leeftijd = 53
+
+// Om te kijken welk (type) iets is gebruik je console.log (typoff 'bvb' 40);
+
+    console.log(typeof 40);           //number
+    console.log(typeof 5.5);          //number
+    console.log(typeof "hello");      //string
+    console.log(typeof true);         //boolean
+    console.log(typeof false);        //boolean
+    
+
+/* Rekenen doe je met de operatoren +, -, / (delen), en * (vermenigvuldigen)
+   Nog andere operatoren zijn:
+
+   bij variabelen gebruiken we &&  voor en
+                               ||  voor of
+                                >  voor is groter dan
+                                <  voor is kleiner dan
+                                >= voor is groter of gelijk aan
+                                <= voor is kleiner of gelijk aan
+                                !  voor niet ...
+                                !== voor is niet (vroeger != kijk naar nadelen zoals ook bij volgende operator)
+                                === voor = (vroeger == maar dat had enkele nadelen)
+
+    de === doet 1 ding meer dan == , hij kijkt eerst naar het type (nummer, string, boolean) dan pas naar de waarde. en is dus daarnaast ook sneller in verwerking.
+*/
+      console.log(!true);          //false
+      console.log(!!true);         //true
+      console.log(!!!true);        //false
+
+      console.log("10" == 10);     // true
+      console.log("10" === 10);    // false
+
+      console.log(0 == false);     // true
+      console.log(0 === false);    // false
+
+      console.log(1 == true );     // true
+      console.log(1 === true );    // false
+
+ // enkele verdere voorbeelden hieronder:
+
+      let age = 55;
+      console.log(age);     // 55
+
+      age = age +1; 
+      console.log(age);     // 56
+
+    // of korter (schorthand) 
+      age += 1;         
+     
+      console.log(age);     // 57
+
+      age++;
+      console.log(age);     // 58
+
+      age--;           
+      console.log(age);     // 57
+
+     let canDrink = age >= 18;
+     console.log("Erwin mag drinken",canDrink);       // Erwin mag drinken true
+     // wanneer age groter of gelijk is aan 18 dan is uitkomst true
+
+     let scooterRijbewijs  = false;
+     let autoRijbewijs = true;
+     let magScooterRijden = autoRijbewijs === true || scooterRijbewijs  === true;
+     // als de linkerzijde al true is dan gaat JS de rechterkant niet meer controleren, dus de expressie met de minste keuze links zetten om de code sneller te laten gaan.
+
+     console.log("Erwin mag scooter rijden",magScooterRijden);     // Erwin mag scooter rijde true
+
+     let geslacht = "m";
+     let magNaarHomoBar = geslacht === "m" && age >= 18;
+     // hier moeten bijde kanten waar zijn en doordat er maar 2 keuzes zijn bij geslacht (man/vrouw) en leeftijd veel meer keuzes heeft is geslacht de eerste.
+
+     console.log("Erwin is welkom in homo Bar",magNaarHomoBar);    //Erwin is welkom in homo Bar true
+
+     // stel dat elk jongen tot en met 18 jaar en elke man vanaf 90 jaar een korting krijgt
+     let krijgtKorting = geslacht === "m" && age >=90 || age <=18;
+
+     console.log("Erwin krijgt korting",krijgtKorting);     //Erwin krijgt korting true
+     // in dit geval zetten we eerst de mannen vanaf 90 jaar en daarna de jongens tot en met 18 jaar om dar er normaal minder mannen zijn boven de 90 dan jongens tot 18
+
+
+
+
+/* NOG HERSCHRIJVEN
+   !!!!!!!!!!!!!!!!!!!!!!
+   !!!!!!!!!!!!!!!!!!!
+   !!!!!!!!!!!!!!!
+*/
+
+
+
+     // FUNCTIES
+
+function oppervlakteRechthoek(breedte,hoogte) {
+   console.log(breedte*hoogte);
+}
+
+oppervlakteRechthoek(20,5);
+oppervlakteRechthoek(70,75);
+oppervlakteRechthoek(420,25);  
+
+
+// Argumenten
+
+function advertentie() {
+    console.log("Volg me op twitter @Erwin");
+  }
+
+  advertentie();
+  advertentie();
+  advertentie();
+  advertentie();
+  advertentie();
+
+  // return value
+
+  function oppervlakteRechthoek(breedte,hoogte) {
+   console.log(breedte*hoogte);
+}
+
+function oppervlakteRechthoek(breedte,hoogte) {
+   return(breedte*hoogte);
+}
+
+/* Als je console.log gebruikt dan schrijf hij deze in de console maar kan je hem niet meer aanroepen, bij return kan je het resultaat terug aanroepen
+*/
+
+ // scope / shadowing
+
+ /* je kan in een functie een variable benoemen met dezelfde naam als buiten de functie. 
+    De variable van binnen de functie heeft geen invloed op die erbuiten, maar gebruik je dezelfde naam dan kan je in de functie de variable buiten de functie niet meer aanroepen.
+    sterker nog , je kan in een andere functie ook weer dezelfde naam gebruiken omdat eens de functie is uitgevoerd je niets meer kan aanroepen van buitenuit die functie.
+    Een scope is alles wat er tussen script en /script afspeeld (dit is eigenlijk de parrent scope en de functie is een child scope)
+    Het verliezen van de toegang buiten de functie door dezelfde naam te gebruiken heet shadowing
+*/
+
+
+    //Functioon coposition
+
+ /* Je kan in een functie een anderen functie aanroepen
+ */
+
+// increment/decrement
+
+  /*
+    ++ operator = increment operator
+    -- operator = decrement operator
+
+    ++n = prefix
+    n++ = postfix
+  */
+
+  let a = 0;
+  let b = a++;
+
+  console.log("a", a, "b", b);
+
+  /*
+    postFix
+
+    1. Het getal teruggeven
+    2. Dan pas incrementen.
+  */
+
+  let y = 0;
+  let z = ++y;
+
+  console.log("y", y, "z", z);
+
+  /*
+    preFix
+
+    1. Eerst incrementen.
+    2. Dan het getal teruggeven
+  */
+
+  /*
+    1. Programmeren is soms echt super vaag.
+       Een stuk code kan heel raar reageren, 
+       en niet doen wat je verwacht.
+    
+    2. Je moet niet altijd alle functionaliteiten
+       van een programmeer taal gebruiken. Gebruik 
+       niet de "gekke" / "complexe" dingen als 
+       het ook makkelijk kan.
+  */
+
+  // dit is misschien meer code maar duidelijker zonder risico op fouten
+  //a += 1;
+  //return a + 1
+  // a = a + 1
+
+</script>
+</html>

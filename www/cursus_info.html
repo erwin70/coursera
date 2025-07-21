@@ -1,0 +1,204 @@
+<script>
+   // hier schrijf je commentaar voor 1 regel
+
+   /*
+       hiertussen schrijf je commentaar
+       over meerdere regels
+   */
+
+   /* Betekenis woorden
+       REPL = Read Evalate Print Loop
+       equivalent = niet hetzelfde geschreven maar wel hetzelfde resultaat bv "" en '' en ``
+       expressie = een stuk code die javascript uitvoerd om tot een waarde te komen bv 5+4 is een expressie en dan 9 is de waarde
+       precedence = voorrang bv * heeft voorang op + operator
+       operatoren(nl) operators(en) zijn bv + - / *
+       keyword(en) is een woord met speciale betekenis zoals bv "let" dat is gereserveerd voor programmatie en dus niet zomaar kan gebruikt worden
+       Verbose = Het is veel code
+       Undefined = ongedefineerd (er staat gewoon niks op de plaats waar iets zou moeten staan)
+       Implisiet = waar ge niks hoefde voor te doen
+       explesiet = dat je zelf er iet hebt voor moeten doen
+       return = stopt de uitvoer van een functie
+       refactoren = code herschrijven door bv in een functie te steken zonder verlies van functionaleit
+    */
+
+    /* keywords
+       let = maak een variable aan vroeger "var"
+       function = maak een functie aan
+
+    */
+
+   /*  voor of na de oparatoren zijn waardes en deze kunnen voorkomen in verschillende types namelijk
+       numbers(en) deze zijn altijd met . en niet met , zijn
+       strings(en) deze zet je altijd tussen "" of ''  
+       je gebruikt "" bv bij "bart's bar" of '' bij 'dit is "mijn" kamer' anders kan ook 'Bart/'s kamer'
+       sinds kort is er nog een nieuwe mannier namelijk `dit is Bart's "kamer"` (genaamd `backtick`)
+       boolean is voor waar/niet waar true/false
+       om dit te testen kun je de opdracht "typeof" gebruiken
+   */
+    console.log(typeof 40);
+    console.log(typeof 5.5);
+    console.log(typeof "hello");
+    console.log(typeof true);
+    console.log(typeof false);
+
+    /* OPERATOREN
+
+       bij variabelen gebruiken we &&  voor en
+                                   ||  voor of
+                                    >  voor is groter dan
+                                    <  voor is kleiner dan
+                                    >= voor is groter of gelijk aan
+                                    <= voor is kleiner of gelijk aan
+                                    !  voor niet ...
+            vb console.log(!true); =resultaat=> false maar console.log(!!true); =resultaat=> true maar ook console.log(!!!true); =resultaat=>false
+                                   !== voor is niet (vroeger != kijk naar nadelen zoals ook bij volgende operator)
+                                   === voor = (vroeger == maar dat had enkele nadelen)
+            console.log("10" == 10); =resultaat=> true
+            console.log(0 == false); =resultaat=> true
+            console.log(1 == true ); =resultaat=> true
+                                     de === doet 1 ding meer dan == , hij kijkt eerst naar het type (nummer, string, boolean) dan pas naar de waarde. en is dus daarnaast ook sneller in verwerking.
+                                    
+   */
+  
+   let age = 55;
+    console.log(age);
+
+    age = age +1; 
+    console.log(age);
+
+    age += 1; // of korter (schorthand) 
+    console.log(age);
+
+    age++;
+   console.log(age);
+
+   age--;
+   console.log(age);
+
+    let voornaam = "Erwin";
+    let achternaam = "Leemans";
+    let volledigeNaam = voornaam + " " + achternaam;
+    console.log(volledigeNaam);
+
+  let canDrink = age >= 18;
+  console.log("Erwin mag drinken",canDrink);
+  // wanneer age groter of gelijk is aan 18 dan is uitkomst true
+
+  let scooterRijbewijs  = false;
+  let autoRijbewijs = true;
+  let magScooterRijden = autoRijbewijs === true || scooterRijbewijs  === true;
+  // als de linkerzijde al true is dan gaat JS de rechterkant niet meer controleren, dus de expressie met de minste keuze links zetten om de code sneller te laten gaan.
+  console.log("Erwin mag scooter rijden",magScooterRijden);
+
+  let geslacht = "m";
+  let magNaarHomoBar = geslacht === "m" && age >= 18;
+// hier moeten bijde kanten waar zijn en doordat er maar 2 keuzes zijn bij geslacht (man/vrouw) en leeftijd veel meer keuzes heeft is geslacht de eerste.
+console.log("Erwin is welkom in homo Bar",magNaarHomoBar);
+
+// stel dat elk jongen tot en met 18 jaar en elke man vanaf 90 jaar een korting krijgt
+let krijgtKorting = geslacht === "m" && age >=90 || age <=18;
+console.log("Erwin krijgt korting",krijgtKorting);
+// in det geval zetten we eerst de mannen vanaf 90 jaar en daarna de jongens tot en met 18 jaar om dar er normaal minder mannen zijn boven de 90 dan jongens tot 18
+
+
+// FUNCTIES
+
+function oppervlakteRechthoek(breedte,hoogte) {
+   console.log(breedte*hoogte);
+}
+
+oppervlakteRechthoek(20,5);
+oppervlakteRechthoek(70,75);
+oppervlakteRechthoek(420,25);  
+
+
+// Argumenten
+
+function advertentie() {
+    console.log("Volg me op twitter @Erwin");
+  }
+
+  advertisement();
+  advertisement();
+  advertisement();
+  advertisement();
+  advertisement();
+
+  // return value
+
+  function oppervlakteRechthoek(breedte,hoogte) {
+   console.log(breedte*hoogte);
+}
+
+function oppervlakteRechthoek(breedte,hoogte) {
+   return(breedte*hoogte);
+}
+
+/* Als je console.log gebruikt dan schrijf hij deze in de console maar kan je hem niet meer aanroepen, bij return kan je het resultaat terug aanroepen
+*/
+
+ // scope / shadowing
+
+ /* je kan in een functie een variable benoemen met dezelfde naam als buiten de functie. 
+    De variable van binnen de functie heeft geen invloed op die erbuiten, maar gebruik je dezelfde naam dan kan je in de functie de variable buiten de functie niet meer aanroepen.
+    sterker nog , je kan in een andere functie ook weer dezelfde naam gebruiken omdat eens de functie is uitgevoerd je niets meer kan aanroepen van buitenuit die functie.
+    Een scope is alles wat er tussen script en /script afspeeld (dit is eigenlijk de parrent scope en de functie is een child scope)
+    Het verliezen van de toegang buiten de functie door dezelfde naam te gebruiken heet shadowing
+*/
+
+
+    //Functioon coposition
+
+ /* Je kan in een functie een anderen functie aanroepen
+ */
+
+// increment/decrement
+
+  /*
+    ++ operator = increment operator
+    -- operator = decrement operator
+
+    ++n = prefix
+    n++ = postfix
+  */
+
+  let a = 0;
+  let b = a++;
+
+  console.log("a", a, "b", b);
+
+  /*
+    postFix
+
+    1. Het getal teruggeven
+    2. Dan pas incrementen.
+  */
+
+  let y = 0;
+  let z = ++y;
+
+  console.log("y", y, "z", z);
+
+  /*
+    preFix
+
+    1. Eerst incrementen.
+    2. Dan het getal teruggeven
+  */
+
+  /*
+    1. Programmeren is soms echt super vaag.
+       Een stuk code kan heel raar reageren, 
+       en niet doen wat je verwacht.
+    
+    2. Je moet niet altijd alle functionaliteiten
+       van een programmeer taal gebruiken. Gebruik 
+       niet de "gekke" / "complexe" dingen als 
+       het ook makkelijk kan.
+  */
+
+  // dit is misschien meer code maar duidelijker zonder risico op fouten
+  //a += 1;
+  //return a + 1
+  // a = a + 1
+   </script>

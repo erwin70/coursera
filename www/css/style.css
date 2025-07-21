@@ -1,0 +1,90 @@
+h1.titel {
+    color: green;
+    text-decoration: double underline overline;
+    text-align: center;
+}
+
+p.codeBox {
+    background-color: lightgray;
+    border:2px solid blue;
+    }
+    
+}
+
+table, th, td {
+    border: 1px solid red;
+    text-align: center;
+  }
+
+thead {
+    color: blue;
+}
+
+caption {
+    font-weight: bold;
+}
+
+body {
+    background-color: mintcream;
+    
+}
+
+.chapter {
+    position: relative;
+    margin-bottom: 1px;
+    width: 100%;
+    color: black;
+    overflow: hidden;
+}
+
+input {
+    position: absolute;
+}
+
+label.chapterlabel {
+    position: relative;
+    display: block;
+    padding: 0 0 0 20px;
+    background-color: darkseagreen;
+    font-size: 30px;
+    line-height: 50px;
+    cursor: pointer;
+}
+
+.chapter-content {
+    max-height: 0;
+    overflow: auto;
+    background-color: mintcream;
+    -webkit-transition: max-height .50s;
+    -moz-transition: max-height .50s;
+    -o-transition: max-height .50s;
+    transition: max-height .50s;
+
+}
+
+.chapter-content p {
+    margin: 20px;
+}
+
+input:checked ~ .chapter-content {
+    max-height: 800px;
+}
+
+label.chapterlabel::after {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+
+input[type=checkbox] + label.chapterlabel::after {
+    content: "+";
+}
+
+input[type=checkbox]:checked + label.chapterlabel::after {
+    content: "-";
+}

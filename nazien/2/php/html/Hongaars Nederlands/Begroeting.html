@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Basiscursus HTML</title>
+
+    <meta name="description" content="Cursus Nederlands voor Hongaren"> <!-- De titel van je pagina, deze wordt ook bovenaan in de webbrowser weergegeven -->
+    <meta name="keywords" content="cursus, Nederlands, Hongaars"> <!-- zo geef je aan met welke zoekwoorden jouw site mag gevonden worden -->
+    <meta name="author" content="Erwin Leemans"> <!-- Auteur van de site -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- zo zorg je ervoor dat de pagina zich altijd aanpast aan de breedte van de browser -->
+</head>
+
+<body>
+
+    <h1><u>üdvözlő - begroeting.</u></h1>
+    <br>
+    <h2>Jó reggelt, 8 óra van.</h2>
+    <audio id="1" src="sound/Goedemorgen%20het%20is%208%20uur.mp3" autoplay="false"></audio>
+    <a onclick="playSound1();"><img src="img/8%20uur.jfif" alt="klok 8 uur" height="200px" width="200px" title="Goedemorgen, het is acht uur."></a>
+
+    <script>
+        function playSound1() {
+            var sound = document.getElementById("1");
+            sound.play();
+        }
+    </script>
+    <br>
+    <h2>Jó napot, dél van.</h2>
+    <audio id="2" src="sound/Goedemiddag%20het%20is%2012%20uur.mp3" autoplay="false"></audio>
+    <a onclick="playSound2();"><img src="img/12%20uur.jfif" alt="klok 12 uur" height="200px" width="200px" title="Goedemiddag het is twaalf uur."></a>
+
+    <script>
+        function playSound2() {
+            var sound = document.getElementById("2");
+            sound.play();
+        }
+    </script>
+    <br>
+    <h2>Jó estét, öt óra van.</h2>
+    <audio id="3" src="sound/Goedenavond%20het%20is%205%20uur.mp3" autoplay="false"></audio>
+    <a onclick="playSound3();"><img src="img/5uur.jfif" alt="klok 5 uur" height="200px" width="200px" title="
+Goedenavond, het is vijf uur."></a>
+
+    <script>
+        function playSound3() {
+            var sound = document.getElementById("3");
+            sound.play();
+        }
+    </script>
+    <br>
+    <h2>Jó éjszakát, 11 óra van.</h2>
+    <audio id="4" src="sound/Goedenacht%20het%20is%2011%20uur.mp3" autoplay="false"></audio>
+    <a onclick="playSound4();"><img src="img/11%20uur.jfif" alt="klok 11 uur" height="200px" width="200px" title="Goedenacht, het is elf uur."></a>
+
+    <script>
+        function playSound4() {
+            var sound = document.getElementById("4");
+            sound.play();
+        }
+    </script>
+
+</body></html>

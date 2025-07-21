@@ -1,7 +1,0 @@
-git status
-
-git add *
-
-git commit -m "12 juli 25"
-
-git push

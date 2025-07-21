@@ -1,0 +1,38 @@
+Start 22/10/2020
+https://www.youtube.com/watch?v=u10xZgNpfCQ&list=PL0eyrZgxdwhwBToawjm9faF1ixePexft-&index=29
+create database
+https://www.youtube.com/watch?v=9f_iSpieX6c&list=PL0eyrZgxdwhwBToawjm9faF1ixePexft-&index=30
+create table
+
+23/10/2020
+https://www.youtube.com/watch?v=IQy8SenpdfM&list=PL0eyrZgxdwhwBToawjm9faF1ixePexft-&index=31
+insert into
+
+https://www.youtube.com/watch?v=9MSdCu3Axdo&list=PL0eyrZgxdwhwBToawjm9faF1ixePexft-&index=32
+select from
+
+https://www.youtube.com/watch?v=5wGDu-aigZs&list=PL0eyrZgxdwhwBToawjm9faF1ixePexft-&index=33
+update set
+
+https://www.youtube.com/watch?v=uDfO7-ywnL8&list=PL0eyrZgxdwhwBToawjm9faF1ixePexft-&index=34
+delete from
+
+https://www.youtube.com/watch?v=_yG_RZpWJuI&list=PL0eyrZgxdwhwBToawjm9faF1ixePexft-&index=35
+order by
+
+https://www.youtube.com/watch?v=ILyf16MEvHM&list=PL0eyrZgxdwhwBToawjm9faF1ixePexft-&index=36
+conect html to database
+
+https://www.youtube.com/watch?v=0YLJ0uO6n8I&list=PL0eyrZgxdwhwBToawjm9faF1ixePexft-&index=37
+show data from database on html
+
+https://www.youtube.com/watch?v=XhLAB1wwzNk&list=PL0eyrZgxdwhwBToawjm9faF1ixePexft-&index=38
+insert data from database on html
+
+24/10/2020
+https://www.youtube.com/watch?v=nTgFPcYRkys&list=PL0eyrZgxdwhwBToawjm9faF1ixePexft-&index=39
+protect your database
+
+https://www.youtube.com/watch?v=I4JYwRIjX6c&list=PL0eyrZgxdwhwBToawjm9faF1ixePexft-&index=40
+prepared statemants
+

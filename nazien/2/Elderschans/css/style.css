@@ -1,0 +1,47 @@
+body {
+	background-color: #ffffe6
+	}
+
+.btn {
+  background-color: #006666;
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 18px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.btn:hover {background: #003333}
+
+nav {
+    position: absolute;
+    background: url('img/menu.png') no-repeat center center;
+    height: 100px;
+    width: 100%;
+    text-align: center;
+}
+
+header {
+    background: url('img/banner.jpg') no-repeat right center;
+    height: 300px;
+}
+    .overlay {
+        background: url('img/overlay.png') no-repeat center center;
+        height: 100px;
+        margin-top: 400px;
+    }
+	
+section {
+width: 100%;
+max-width: 900px;
+margin: auto;
+}
+
+footer {
+    background: url('img/footer.png') no-repeat center center;
+    height: 100px;
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Basiscursus HTML</title>
+
+    <meta name="description" content="Cursus html voor beginners"> <!-- De titel van je pagina, deze wordt ook bovenaan in de webbrowser weergegeven -->
+    <meta name="keywords" content="HTML, ol, ul, li, html-code, code, html5, type, reversed, cursus"> <!-- zo geef je aan met welke zoekwoorden jouw site mag gevonden worden -->
+    <meta name="author" content="Erwin Leemans"> <!-- Auteur van de site -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- zo zorg je ervoor dat de pagina zich altijd aanpast aan de breedte van de browser -->
+</head>
+
+<body>
+    <H2>Hoofdstuk 6</H2>
+    <H3><code>&lt;ol&gt;</code><dfn title="Geordende lijst"> Ordered List</dfn> en <code>&lt;li&gt;</code><dfn title="Lijst Item"> List Items</dfn></H3>
+
+    <pre><code>
+    &lt;ol &gt;
+        &lt;li &gt;lijn 1&lt;/li &gt;
+        &lt;li &gt;lijn 2&lt;/li &gt;
+        &lt;li &gt;lijn 3&lt;/li &gt;
+        &lt;li &gt;lijn 4&lt;/li &gt;
+    &lt;/ol &gt;
+    </code></pre>
+
+    <ol>
+        <li>lijn 1</li>
+        <li>lijn 2</li>
+        <li>lijn 3</li>
+        <li>lijn 4</li>
+    </ol>
+
+    <H4>
+        <pre><code>
+    (start bij het getal 20 <wbr> in omgkeerde volgorde)
+             &lt;ol start="20" reversed&gt; 
+    </code></pre>
+    </H4>
+
+    <ol start="20" reversed>
+        <li>lijn 1</li>
+        <li>lijn 2</li>
+        <li>lijn 3</li>
+        <li>lijn 4</li>
+    </ol>
+
+    <h4>
+        <pre><code>
+    &lt;ol type ="a"&gt; (kleine letters)
+    </code></pre>
+    </h4>
+
+
+    <ol type="a">
+        <li>lijn 1</li>
+        <li>lijn 2</li>
+        <li>lijn 3</li>
+        <li>lijn 4</li>
+    </ol>
+
+    <h4>
+        <pre><code>
+    &lt;ol type ="A"&gt; (Grote letters)
+    </code></pre>
+    </h4>
+
+    <ol type="A">
+        <li>lijn 1</li>
+        <li>lijn 2</li>
+        <li>lijn 3</li>
+        <li>lijn 4</li>
+    </ol>
+
+    <h4>
+        <pre><code>
+    &lt;ol type ="i"&gt; (griekse kleine cijfers)
+    </code></pre>
+    </h4>
+
+    <ol type="i">
+        <li>lijn 1</li>
+        <li>lijn 2</li>
+        <li>lijn 3</li>
+        <li>lijn 4</li>
+    </ol>
+
+    <h4>
+        <pre><code>
+    &lt;ol type ="I"&gt; (griekse grote cijfers)
+    </code></pre>
+    </h4>
+
+    <ol type="I">
+        <li>lijn 1</li>
+        <li>lijn 2</li>
+        <li>lijn 3</li>
+        <li>lijn 4</li>
+    </ol>
+
+    <H3><code>&lt;ul&gt;</code><dfn title="Ongeordende lijst"> Unordered List</dfn> en <code>&lt;li&gt;</code><dfn title="Lijst Item"> List Items</dfn></H3>
+    <pre>
+    &lt;ul &gt;
+        &lt;li &gt;lijn 1&lt;/li &gt;
+        &lt;li &gt;lijn 2&lt;/li &gt;
+        &lt;li &gt;lijn 3&lt;/li &gt;
+        &lt;li &gt;lijn 4&lt;/li &gt;
+    &lt;/ul &gt;
+    </pre>
+
+    <ul>
+        <li>lijn 1</li>
+        <li>lijn 2</li>
+        <li>lijn 3</li>
+        <li>lijn 4</li>
+    </ul>
+
+    <h4>
+        <pre>
+    (Standaard zet hij bolletjes maar deze kunnen ook rondjes zijn)
+    <code>
+                            &lt;ul type ="circle"&gt;
+    </code>
+    </pre>
+    </h4>
+
+    <ul type="circle">
+        <li>lijn 1</li>
+        <li>lijn 2</li>
+        <li>lijn 3</li>
+        <li>lijn 4</li>
+    </ul>
+
+    <h4>
+        <pre><code>
+    &lt;ul type ="square"&gt; 
+    </code>(of vierkantjes)</pre>
+    </h4>
+
+    <ul type="square">
+        <li>lijn 1</li>
+        <li>lijn 2</li>
+        <li>lijn 3</li>
+        <li>lijn 4</li>
+    </ul>
+
+    <H3>Geneste lijsten (sub-lijsten)</H3>
+    <pre>
+    &lt;ol&gt;
+    &lt;li&gt;lijn 1&lt;/li&gt;
+        &lt;ol type="a"&gt;
+            &lt;li&gt;sub 1&lt;/li&gt;
+            &lt;li&gt;sub 2&lt;/li&gt;
+        &lt;/ol&gt;
+    &lt;li&gt;lijn 2&lt;/li&gt;
+        &lt;ul&gt;
+            &lt;li>sub 1&lt;/li&gt;
+            &lt;li>sub 2&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;li&gt;lijn 3&lt;/li&gt;
+         &lt;ul type="disc"&gt;
+            &lt;li&gt;sub 1&lt;/li&gt;
+            &lt;li&gt;sub 2&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;li&gt;lijn 4&lt;/li&gt;
+        &lt;ul type="square"&gt;
+            &lt;li&gt;sub 1&lt;/li&gt;
+            &lt;li&gt;sub 2&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/ol&gt;
+    </pre>
+    <ol>
+        <li>lijn 1</li>
+        <ol type="a">
+            <li>sub 1</li>
+            <li>sub 2</li>
+        </ol>
+        <li>lijn 2</li>
+        <ul>
+            <li>sub 1</li>
+            <li>sub 2</li>
+        </ul>
+        <li>lijn 3</li>
+        <ul type="disc">
+            <li>sub 1</li>
+            <li>sub 2</li>
+        </ul>
+        <li>lijn 4</li>
+        <ul type="square">
+            >
+            <li>sub 1</li>
+            <li>sub 2</li>
+        </ul>
+    </ol>
+    <h5>Standaard zet hij bij sub-lijsten rondjes maar deze kunnen ook bolletjes zijn of vierkantjes</h5>
+
+    <H3><code>&lt;dl&gt;</code><dfn title="Definitie lijst"> Definition List</dfn><wbr> en <code>&lt;dt&gt;</code><dfn title="Definitie term"> Definition Term</dfn><wbr> en <code>&lt;dd&gt;</code><dfn title="Definitie declartie"> Definition Declaration</dfn></H3>
+
+    <pre>       &lt;dl&gt;
+            &lt;dt&gt;term 1&lt;/dt&gt;
+                &lt;dd&gt;declaratie 1&lt;/dd&gt;
+                &lt;dd&gt;declaratie 2&lt;/dd&gt;
+            &lt;dt&gt;term 2&lt;/dt&gt;
+                &lt;dd&gt;declaratie 1&lt;/dd&gt;
+                &lt;dd&gt;declaratie 2&lt;/dd&gt;
+            &lt;dt&gt;term 3&lt;/dt&gt;
+                &lt;dd&gt;declaratie 1&lt;/dd&gt;
+                &lt;dd&gt;declaratie 2&lt;/dd&gt;
+            &lt;dt&gt;term 4&lt;/dt&gt;
+                &lt;dd&gt;
+                    &lt;p&gt;declaratie 1&lt;/p&gt;
+                    &lt;p&gt;declaratie 2&lt;/p&gt;
+                &lt;/dd&gt;
+       &lt;/dl&gt;</pre>
+
+    <dl>
+        <dt>term 1</dt>
+        <dd>declaratie 1</dd>
+        <dd>declaratie 2</dd>
+        <dt>term 2</dt>
+        <dd>declaratie 1</dd>
+        <dd>declaratie 2</dd>
+        <dt>term 3</dt>
+        <dd>declaratie 1</dd>
+        <dd>declaratie 2</dd>
+        <dt>term 4</dt>
+        <dd>
+            <p>declaratie 1</p>
+            <p>declaratie 2</p>
+        </dd>
+    </dl>
+</body></html>

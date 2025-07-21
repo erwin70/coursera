@@ -1,0 +1,369 @@
+<!Doctype html>
+<html lang="nl">
+<head>
+<title>HTML 5 in eigen woorden</title>
+<!-- De volgende lijn zorgt ervoor dat we de tekencodering kunnen gebruiken die bijna alle speciale tekens omvat die we in europa gebruiken  -->
+<meta charset="UTF-8">
+<!-- De naam van de auteur van deze pagina -->
+<meta name="author" content="Erwin Leemans">
+<!-- De kernwoorden waar onze pagina over gaat -->
+<meta name="keywords" content="JavaScript, cursus">
+<!-- De korte uitleg over deze pagina -->
+<meta name="description" content=" In eenvoudige taal JavaScript uitgelegd">
+<!-- Deze regel zorgt er voor dat onze pagina zich automatisch aanpast aan eender welke breedte van scherm -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="css/style.css"
+</head>  
+<body> 
+    <h1 class="titel">Cursus HTML 5</h1>
+    <div class="chapter">
+        <input id="chapter1" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter1">We beginnen onze cursus met de basis opmaak die nodig is voor een html pagina.</label>
+    <div class="chapter-content">
+
+        <p>Eerst laat ik even zien hoe die er uit ziet en daarna geef ik er uitleg over ter verduidelijking.</p> 
+    <pre>
+    <p class="codeBox">&lt;!Doctype html&gt;<br>
+        <span style="color:red">&lt;html lang="nl"&gt;</span><br>
+            <span style="color:white">&lt;head&gt;</span><br>
+            &lt;title&gt;<span style="color:blue">Hier tussen komt de titel van jou pagina</span>&lt;/title&gt;<br>
+            &lt;meta charset="UTF-8"&gt;<br>
+            &lt;meta name="author" content="<span style="color:blue">Hier komt jouw naam</span>"&gt;<br>
+            &lt;meta name="keywords" content="<span style="color:blue">De kernwoorden waar de pagina over gaat</span>"&gt;<br>
+            &lt;meta name="description" content="<span style="color:blue">Een korte omschrijving</span>"&gt;<br>
+            <span style="color:white">&lt;/head&gt;</span><br>
+                <span style="color:green">&lt;body&gt;</span><br>
+                <span style="color:blue">Hier tussen komt al jouw code die uiteindelijk de pagina vormt.</span><br>
+                <span style="color:green">&lt;/body&gt;</span><br>
+        <span style="color:red">&lt;/html&gt;</span><br><br></p>
+    </pre>
+        <p>De eerste lijn is het opgeven in welke programmeertaal we gaan schrijven.<br>
+        &lt;!Doctype html&gt;</p>
+
+        <p>Daarna schrijven we alle html tussen de &lt;html&gt; en de &lt;/html&gt;.<br>
+        In de openingstag &lt;html&gt; kunnen we ook vermelden in welke taal we onze webpagina gaan schrijven (info voor zoekmachines).<br>
+        Tussen deze 2 &lt;html&gt; tags komen nog de &lt;head&gt; en de &lt;body&gt; tag.</p>
+
+        <p>&lt;meta charset="UTF-8"&gt;<br>
+        Deze lijn zorgt ervoor dat we de tekencodering kunnen gebruiken die bijna alle speciale tekens omvat die we in europa gebruiken.</p>   
+    </div>  
+    </div>
+
+    <div class="chapter">
+        <input id="chapter2" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter2">Commentaar, paragraaf, nieuwe regel starten en nieuw onderwerp starten zonder nieuwe pagina</label>
+    <div class="chapter-content">
+       <p class="codeBox"> <!-- Hier voeg ik commentaar voor html -->
+        <span style ="color: green;"> &lt;!--</span> <span style ="color: blue;">Hier tussen voeg ik commentaar in voor html </span><span style ="color: green;"> --&gt;</span></p>
+       <p>Deze commentaar is niet zichtbaar op de pagina maar enkel in de bron</p><hr>
+        <p class="codeBox"> &lt;p&gt;Dit is een paragraaf, alle tekst wordt nu gewoon aan elkaar geschreven. Een paragraaf heeft altijd een witruimte boven en onder.&lt;br&gt; <br>
+        Wil je de volgende zin beginnen op de volgende rij zonder witruimte ertussen dan gebruik je de (break) tag &lt;br&gt; .<br>
+        Deze heeft geen eind tag.&lt;/p&gt;</p>
+        <hr>
+        De lijn hierboven wordt gebruikt om een nieuw onderwerp te starten en niet om een scheidingslijn te zetten.<br>
+        Deze heeft geen eind tag.<br>
+        Hierna mag je ook terug opnieuw de tag &lt;H1&gt; gebruiken omdat het een nieuw onderwerp is.<br>
+        <p class="codeBox">De code hier voor is &lt;hr&gt;</p> 
+    </div>  
+    </div>
+
+
+    <div class="chapter">
+        <input id="chapter3" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter3">De hoofding</label>
+    <div class="chapter-content">
+        <p class="codeBox">&lt;H1&gt;Dit is een H1 titel&lt;/H1&gt;</p> 
+        <H1>Dit is een H1 titel</H1>
+        <h2>Een H2 titel</h2>
+        <h3>Een H3 titel</h3>
+        <h4>Een H4 titel</h4>
+        <h5>Een H5 titel</h5>
+        <h6>Een H6 titel</h6><hr>   
+    </div>  
+    </div>
+
+ 
+    <div class="chapter">
+        <input id="chapter4" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter4">Tekstopmaak</label>
+    <div class="chapter-content">
+        <p><u>Deze tekst is onderlijnd,</u></p>
+        <p><s>Deze tekst is doorstreept</s> of <strike>Dit kan ook</strike></p>
+        <P>Deze &lt;em&gt;<em>teks</em>t&lt;/em&gt; is emphasized.<br>
+         Deze tekst wordt schuin geschreven en met intonatie uitgesproken door de voorlezer.</P>
+        <p>Deze &lt;strong&gt;<strong>tekst</strong>&lt;/strong&gt; is strong.<br>
+            Deze tekst wordt vet gedrukt en luider worden uitgesproken door de voorlezer.</p>
+        <p>Deze <mark>tekst</mark> is gehiglight met mark.<br>
+            Deze tekst wil de nadruk leggen op de daarna volgende tekst, bijvoorbeeld: <mark>Let op !!! </mark>En hier komt de tekst waar ik op moet letten.</p>
+        <p><u>Volgende teksten hebben geen invloed op het voorlezen.</u></p>
+        <p>Deze <i>tekst</i> is italic geschreven.</p>
+        <p>Deze <b>tekst</b> is bolt geschreven.</p>
+        <p>Deze <span style="color:blue">tekst</span> moet opvallen.</p>
+        <p><small>Deze tekst wordt kleiner geschreven </small>en wordt meestal gebruikt voor dingen die je niet perse moet lezen of voetnotes.</p><hr>
+    </div>  
+    </div>
+
+    <div class="chapter">
+        <input id="chapter5" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter5">Sub-supscript</label>
+    <div class="chapter-content">
+        <p>H<sub>2</sub>O is subscript</p>
+        <p>1<sup>e</sup> is supscript</p>  
+    </div>  
+    </div>
+
+    <div class="chapter">
+        <input id="chapter6" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter6">Definitie / afkortingen</label>
+    <div class="chapter-content">
+        <p>Wil je een definitie van een woord bijvoorbeeld: <dfn title="Het vormgeven en ontwerpen van een webpagina">webdisign</dfn> dan gebruik je de tag &lt;DFN title="de betekenis"&gt;, deze sluit je af met &lt;/DFN&gt;. Als je nu met de muis over het woord webdisign gaat krijg je de betekenis te zien.</p>
+        <p>Bij een afkorting gebruik je de tag <abbr title="abbreviation">&lt;ABBR&gt;</abbr> en ook deze moet afgesloten worden.Ga maar eens met de muis over ABBR voor de betekenis. </p><hr>   
+    </div>  
+    </div>
+
+    <div class="chapter">
+        <input id="chapter7" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter7">Blockquotes en quotes en cite</label>
+    <div class="chapter-content">
+        <p>Als je een tekst gebruikt van een andere site dan moet je dit aangeven met de tag &lt;BLOCKQUOTE cite="website waar het vandaan komt"&gt; en &lt;/BLOCKQUOTE&gt;.</p>
+        <blockquote cite="https://nl.wikipedia.org/wiki/HyperText_Markup_Language">HyperText Markup Language (afgekort HTML) is een op SGML gebaseerde opmaaktaal voor de specificatie van documenten, voornamelijk bedoeld voor het wereldwijde web. Het is de standaard opmaaktaal voor webpagina's.</blockquote>
+        Als je een citaat van iemand gebruikt dan gebruik je de tag &lt;Q&gt; en &lt;/Q&gt;<br>
+        <p>Hierna volgt een korte quote: <q>Onze beste vrienden zijn familie die we zelf kiezen.</q></p>
+        Als je bijvoorbeeld een titel van een boek gebruikt dan gebruik je de tag &lt;CITE&gt; en &lt;/CITE&gt;<br>
+        Bijvoorbeeld: <cite>Harry Potter en de Vuurbeker</cite>  
+    </div>  
+    </div>
+
+    <div class="chapter">
+        <input id="chapter8" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter8">Adres gegevens</label>
+    <div class="chapter-content">
+        <p>Bij online verkoop ben je verplicht je adresgegevens achter te laten en dat doe je met de tag ADRESS en /ADRESS, hieronder een voorbeeld</p>
+        <address>Erwin Leemans<br>Herendreef 67<br>4527AZ Aardenburg<br>Nederland</address>
+    </div>  
+    </div>
+
+    <div class="chapter">
+        <input id="chapter9" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter9">Tekens die bedoeld zijn voor HTML code en speciale tekens tonen</label>
+    <div class="chapter-content">
+        &lt;<br>
+         &gt;<br>
+        &copy;<br>
+        &euro;<br>
+        &amp;<br>
+        <a href="//en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references">Wikipedia info speciale tekens</a>  
+    </div>  
+    </div>
+
+
+    <div class="chapter">
+        <input id="chapter10" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter10">Opsommingen/lijsten</label>
+    <div class="chapter-content">
+        <ol>
+            <li>eerste</li>
+            <li>tweede</li>
+            <li>derde</li>
+            <li>vierde</li>
+        </ol>
+        <ol type="A">
+            <li>eerste</li>
+            <li>tweede</li>
+            <li>derde</li>
+            <li>vierde</li>
+        </ol>
+        <ol type="a">
+            <li>eerste</li>
+            <li>tweede</li>
+            <li>derde</li>
+            <li>vierde</li>
+        </ol>
+        <ol type="i">
+            <li>eerste</li>
+            <li>tweede</li>
+            <li>derde</li>
+            <li>vierde</li>
+        </ol>
+        <ol type="I">
+            <li>eerste</li>
+            <li>tweede</li>
+            <li>derde</li>
+            <li>vierde</li>
+        </ol>
+        <ol type="A" start="4">
+            <li>eerste</li>
+            <li>tweede</li>
+            <li>derde</li>
+            <li>vierde</li>
+        </ol>
+        <ol type="A" start="4" reversed>
+            <li>eerste</li>
+            <li>tweede</li>
+            <li>derde</li>
+            <li>vierde</li>
+        </ol>
+        
+        <hr>
+
+        <ul>
+            <li>eerste</li>
+            <li>tweede</li>
+            <li>derde</li>
+            <li>vierde</li>
+        </ul>
+        <ul type="square">
+            <li>eerste</li>
+            <li>tweede</li>
+            <li>derde</li>
+            <li>vierde</li>
+        </ul>
+            <ul type="circle">
+            <li>eerste</li>
+            <li>tweede</li>
+            <li>derde</li>
+            <li>vierde</li>
+        </ul>
+        <ul type="disc">
+            <li>eerste</li>
+            <li>tweede</li>
+            <li>derde</li>
+            <li>vierde</li>
+        </ul>
+        
+        <hr>
+
+        <dl>
+            <dt>kleerkast</dt>
+                <dd>ondergoed</dd>
+                <dd>hemden</dd>
+                <dd>broeken</dd>
+        </dl>
+        <dl>
+            <dt>bureau</dt>
+                <dd>papier</dd>
+                <dd>pen</dd>
+                <dd>kaft</dd>
+        </dl>   
+    </div>  
+    </div>
+
+    <div class="chapter">
+        <input id="chapter11" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter11">Aangeven waar een lang woord mog worden afgebroken</label>
+    <div class="chapter-content">
+        <h3>bij gewoon woord</h3>
+        hotten&shy;totten&shy;tentoon&shy;stelling<br>
+        <h3>Bij website url afkorten</h3>
+        http://www.holand<wbr>ventilatie<wbr>organisatie.nl<br>  
+    </div>  
+    </div>
+
+    <div class="chapter">
+        <input id="chapter12" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter12">Extra witruimte laten zien zoals je deze in de bron typt</label>
+    <div class="chapter-content">
+        <pre>
+            1
+                2
+                    3  
+                        4
+                    5
+                6
+            7
+        </pre>
+    </div>  
+    </div>
+
+    <div class="chapter">
+        <input id="chapter13" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter13">Naamwijziging doorvoeren in html</label>
+    <div class="chapter-content">
+        <p>Vroeger heette de club <del>ATTV</del>nu <ins datetime="2023-11-05">ATLV</ins> bijvoorbeeld.<br></p>    
+    </div>  
+    </div>
+
+    <div class="chapter">
+        <input id="chapter14" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter14">Weblinks of interne links en link voor bestand downloaden</label>
+    <div class="chapter-content">
+        <h3>externe link</h3>
+        <a href="https://en.wikipedia.org/" title="Bezoek de wikipedia site" target="_blank" hreflang="en">link naar wikipedia</a>
+        <h3>interne links</h3>
+        <a href="JS in eigen woorden.html " title="Bezoek ook de info voor JS" target="_blank" hreflang="en">Js in eigen woorden</a><br>
+        <a href="../onderliggend.html " title="link naar onderliggende map" target="_blank" hreflang="en">link naar onderliggende map</a><br>
+        <a href="cursus/bovenliggen.html " title="link naar bovenliggende map" target="_blank" hreflang="en">link naar bovenliggende map</a>
+        <h3>link naar een bestand</h3>
+        <a href="cursus/cursus.pdf " title="Download de pdf">PDF downloaden</a>  
+    </div>  
+    </div>
+
+    <div class="chapter">
+        <input id="chapter15" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter15">Foto plaatsen</label>
+    <div class="chapter-content">
+        Ik heb doelbewust de afbeelding weggelaten zodat je ziet wat er komt te staan zonder IMG.<br>
+        <img scr="IMG/kerk.jpg" width="50px" height="50px" alt="Afbeelding van kerk" title="kerk in spanje"><br>
+        Een jpg is altijd met witopvulling gif of png kan wel transparant zijn terwijlgif toch nog een wit randje achterlaat.<br>
+        <h3>Een foto als link gebruiken</h3>
+        <a href="https://en.wikipedia.org/" title="Bezoek de wikipedia site" target="_blank" hreflang="en"><img scr="IMG/kerk.jpg" width="150px" height="150px" alt="Afbeelding van kerk" title="kerk in spanje"></a><br><hr>
+        <h3>Tabellen</h3>    
+    </div>  
+    </div>
+
+     <div class="chapter">
+        <input id="chapter16" type="checkbox" name="chapters"/>
+        <label class="chapterlabel" for="chapter16">Tabellen</label>
+    <div class="chapter-content">
+        <table summary="Overzicht van alle kamers">
+    
+        <caption>Alle kamers</caption> 
+                                                            
+        <thead>
+                <tr>
+                    <th colspan="2">Standard</th>
+                    <th colspan="2">Comfort</th>
+                    <th>budget</th>
+                    <th>suites</th>
+                    <th>mini suite</th>
+                </tr>
+        </thead>
+                                                            
+        <tfoot>
+                <tr>
+                    <th>14</th>
+                    <th>16</th>
+                    <th>20</th>
+                    <th>22</th>
+                    <th>18</th>
+                    <th>03</th>
+                    <th>04</th>
+                </tr>
+        </tfoot>
+                                                            
+        <tbody>
+                <tr>
+                    <td>01</td>
+                    <td>16</td>
+                    <td>32</td>
+                    <td>52</td>
+                    <td>72</td>
+                    <td>90</td>
+                    <td>93</td>
+                </tr>
+                                                                 
+                <tr>
+                    <td>15</td>
+                    <td>31</td>
+                    <td>51</td>
+                    <td>71</td>
+                    <td>89</td>
+                    <td>93</td>
+                    <td>96</td>
+                </tr>
+        </tbody>
+        </table>   
+    </div>  
+    </div>
+</body> 
+</html>

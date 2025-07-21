@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice 4.1.6  (Win32)">
+	<META NAME="AUTHOR" CONTENT="zeus">
+	<META NAME="CREATED" CONTENT="20160627;460000">
+	<META NAME="CHANGEDBY" CONTENT="Erwin Boss">
+	<META NAME="CHANGED" CONTENT="20191119;13510810">
+	<META NAME="AppVersion" CONTENT="14.0000">
+	<META NAME="Company" CONTENT="Hewlett-Packard Company">
+	<META NAME="DocSecurity" CONTENT="0">
+	<META NAME="HyperlinksChanged" CONTENT="false">
+	<META NAME="LinksUpToDate" CONTENT="false">
+	<META NAME="ScaleCrop" CONTENT="false">
+	<META NAME="ShareDoc" CONTENT="false">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { size: 21.59cm 27.94cm; margin: 2.54cm }
+		P { margin-bottom: 0.21cm; direction: ltr; color: #000000; widows: 2; orphans: 2 }
+		A:link { so-language: zxx }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" TEXT="#000000" DIR="LTR">
+<P STYLE="margin-bottom: 0.35cm"><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt"><U>3
+manieren van broncode schrijven voor hetzelfde resultaat</U></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.35cm"><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">&lt;div
+id=&quot;myButton&quot; onclick=&quot;alert('hello');&quot;&gt;Click
+Me 1&lt;/div&gt; <BR>&lt;div id=&quot;myButton1&quot; &gt;Click Me
+2&lt;/div&gt;   <FONT COLOR="#006666">// Achter 2  schuine strepen
+zet je commentaar</FONT><BR>&lt;div id=&quot;myButton2&quot; &gt;Click
+Me 3&lt;/div&gt;   <FONT COLOR="#006633">// Deze is niet te lezen in
+de browser</FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.35cm"><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt"><FONT COLOR="#007826">/*
+Hier kan je meerdere zinnen of code die je momenteel nier gebruikt
+tussen zetten
+*/</FONT><BR>&lt;script&gt;<BR>document.getElementById(&quot;myButton1&quot;).addEventListener(&quot;click&quot;,function(){<BR>&nbsp;
+&nbsp; alert(&quot;hello again&quot;);<BR>})<BR>&lt;/script&gt;<BR>&lt;script
+src=&quot;script.js&quot;&gt;&lt;/script&gt;</FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.35cm"><BR><BR>
+</P>
+<P STYLE="margin-bottom: 0.35cm"><BR><BR>
+</P>
+<P STYLE="margin-bottom: 0.35cm"><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt"><U>In
+het bestand script.js zet je hetvolgende:</U></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.35cm"><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">document.getElementById(&quot;myButton1&quot;).addEventListener(&quot;click&quot;,function(){<BR>&nbsp;
+&nbsp; alert(&quot;hello again again&quot;);</FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.35cm"><BR><BR>
+</P>
+<P STYLE="margin-bottom: 0.35cm"><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt"><U>Laat
+er de naam van de persoon bijkomen:</U></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.35cm"><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">&lt;script&gt;<BR>var
+myPrompt = prompt(&quot;Enter your Name&quot;);<BR>alert(&quot;hello
+&quot;+myPrompt);<BR>&lt;/script&gt;</FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.35cm"><BR><BR>
+</P>
+<P STYLE="margin-bottom: 0.35cm"><BR><BR>
+</P>
+<P STYLE="margin-bottom: 0.35cm"><BR><BR>
+</P>
+<P STYLE="margin-bottom: 0.42cm; line-height: 0.64cm; page-break-before: always">
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">&lt;script&gt;<BR>var
+myVar1 = &quot;string&quot;; //Characters<BR>var _myVar2 = 10
+//Number<BR>var $myVar3 = true //Boolean</FONT></FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.42cm; line-height: 0.64cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">var
+myVar4 = [&quot;string&quot;,5,true,&quot;string 2&quot;,&quot;new
+value&quot;,&quot;new 4 value&quot;,&quot;new value 5&quot;,&quot;new
+&nbsp;4 value&quot;,&quot;new 4 value&quot;];<BR>var myVar5 =
+[&quot;string&quot;,5,true,&quot;string 2&quot;,&quot;new value&quot;,&quot;new
+4 value&quot;,&quot;new value 5&quot;,&quot;new &nbsp;4 value&quot;,&quot;new
+4 value&quot;];</FONT></FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.42cm; line-height: 0.64cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">console.log(myVar4[3]);
+// Array index starts with 0</FONT></FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.42cm; line-height: 0.64cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">myVar4.push(&quot;string
+3&quot;);<BR>console.log(myVar4.length)<BR>console.log(myVar4[myVar4.length-1]);</FONT></FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.42cm; line-height: 0.64cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">myVar4.pop();<BR>console.log(myVar4[myVar4.length-1]);</FONT></FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.42cm; line-height: 0.64cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">myVar4.shift();<BR>console.log(myVar4);</FONT></FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.42cm; line-height: 0.64cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">console.log(myVar4.indexOf(&quot;string
+2&quot;));</FONT></FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.42cm; line-height: 0.64cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">myVar4.forEach(function(i,k){<BR>&nbsp;
+&nbsp; console.log(i + &quot; &quot; +
+k);<BR>})<BR>console.log(myVar4);<BR>myVar4.splice(2,3);<BR>console.log(myVar4);</FONT></FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.42cm; line-height: 0.64cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">myVar4.sort();<BR>myVar4.reverse();</FONT></FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.42cm; line-height: 0.64cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">var
+myVar6 = myVar4.concat(myVar5);<BR>var myVar7 = myVar4.join(' :) ');</FONT></FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.42cm; line-height: 0.64cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><FONT COLOR="#222222"><FONT FACE="Arial, serif"><FONT SIZE=2 STYLE="font-size: 10pt">var
+myVar8 = myVar4.toString();<BR>console.log(myVar6);<BR>var myVar9 =
+myVar6.slice(2,4);<BR>console.log(myVar9);<BR>&lt;/script&gt;</FONT></FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.35cm"><BR><BR>
+</P>
+</BODY>
+</HTML>
