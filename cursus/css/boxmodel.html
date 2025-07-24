@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boxmodel</title>
+</head>
+<body>
+    <style>
+        img {
+            margin: 10px;
+            margin-left: 200px;
+            /*
+            border-width: thin; 
+            border-width: medium;
+            */
+            border-style: solid;
+            border-width: thick;
+            border-color: blue;
+
+            padding: 10%;
+
+        }
+
+    </style>
+
+<h1>Box Model</h1>
+
+    <img src="img/boxmodel.png" width="400"><br>
+    <img src="img/pixels.png" width="400"><br>
+    <img src="img/padding.png" width="400"><br>
+
+    <style>
+* {                         /* dit is voor elk element geldig */
+  box-sizing: border-box; /*standard staat deze op border-content*/
+  margin: 0;
+  padding: 0;
+}
+
+#box {
+  background-color: blue;
+  padding: 10px 20px 30px 50px; /* boven, links, rechts, onder */
+  border: 5px solid black;
+  width: 700px;
+ /* height: 400px; */
+  margin-top: 50px;
+  margin-left: 50px;
+  margin-bottom: 50px;
+
+  overflow: auto;
+  text-align: center;
+}
+#content {
+  background-color: #90EE90; /* green */
+}
+
+h1 {
+  margin-bottom: 30px;
+}
+
+</style>
+
+<div id="box">
+  <div id="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit error quis ab perspiciatis eos inventore recusandae iste itaque numquam facilis, tenetur. Doloribus officiis quae facilis, nisi, ex similique. Animi, perferendis. 
+  </div>
+</div>
+
+</body>
+</html>
