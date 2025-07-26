@@ -1,0 +1,27 @@
+In VS Code  je HTML in preview zien:
+
+Live Server Extensie (Aanbevolen voor ontwikkeling):
+
+Dit is verreweg de meest populaire en handige methode, vooral als je actief aan het ontwikkelen bent. 
+Live Server start een lokale ontwikkelserver die automatisch je browser vernieuwt wanneer je wijzigingen opslaat in je HTML,
+ CSS of JavaScript.
+
+Installatie:
+
+Open VS Code.
+
+Ga naar de Extensions-weergave (Ctrl+Shift+X of klik op het blokjes-icoon aan de linkerkant).
+
+Zoek naar "Live Server" (door Ritwick Dey).
+
+Klik op "Install".
+
+Gebruik:
+
+Open je HTML-bestand in VS Code.
+
+Klik met de rechtermuisknop ergens in het HTML-bestand.
+
+Selecteer "Open with Live Server" of "Go Live".
+
+Je standaardbrowser opent en toont je HTML-pagina.
