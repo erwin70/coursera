@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+    /* CSS om de gemarkeerde tekst te stylen */
+    .highlight {
+        background-color: yellow;
+        font-weight: bold;
+    }
+</style>
+
+    <article id="mijnBlogpost">
+    <h1>De titel van mijn geweldige blogpost</h1>
+    <p>Dit is de eerste paragraaf van mijn blog. Het gaat over interessante dingen...</p>
+    <p>En hier is de tweede paragraaf, met nog meer fascinerende informatie die voorgelezen kan worden.</p>
+    </article>
+
+<button id="leesVoorKnop">Lees Blog Voor</button>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const leesVoorKnop = document.getElementById('leesVoorKnop');
+    const blogContent = document.getElementById('mijnBlogpost');
+    let isPlaying = false;
+    let currentUtterance = null;
+    let currentParagraphIndex = 0; // Om bij te houden welke paragraaf wordt voorgelezen
+    let paragraphs = []; // Array om alle paragrafen op te slaan
+
+    if (leesVoorKnop && blogContent) {
+        // Verzamel alle paragrafen of tekstblokken die je wilt voorlezen
+        // In dit voorbeeld pakken we alle <p> tags binnen de <article>
+        paragraphs = Array.from(blogContent.querySelectorAll('p'));
+
+        // Functie om alle highlights te verwijderen
+        const removeHighlights = () => {
+            paragraphs.forEach(p => p.classList.remove('highlight'));
+        };
+
+        leesVoorKnop.addEventListener('click', () => {
+            if (!isPlaying) {
+                // Combineer alle paragraafteksten tot één string voor de spraaksynthese
+                const fullTextToSpeak = paragraphs.map(p => p.innerText).join(' ');
+
+                if ('speechSynthesis' in window) {
+                    currentUtterance = new SpeechSynthesisUtterance(fullTextToSpeak);
+
+                    currentUtterance.pitch = 1;
+                    currentUtterance.rate = 1;
+                    currentUtterance.volume = 1;
+
+                    // Event listener voor het einde van de spraak
+                    currentUtterance.onend = () => {
+                        isPlaying = false;
+                        leesVoorKnop.textContent = 'Lees Blog Voor';
+                        removeHighlights(); // Verwijder highlights als het voorlezen klaar is
+                        currentParagraphIndex = 0; // Reset de index
+                    };
+
+                    // *** Belangrijk: De onboundary event listener voor highlighting ***
+                    currentUtterance.onboundary = (event) => {
+                        // event.name kan 'word' of 'sentence' zijn
+                        // event.charIndex geeft de startpositie van het voorgelezen woord/zin
+                        // event.charLength geeft de lengte van het voorgelezen woord/zin
+
+                        // Dit is een vereenvoudigd voorbeeld dat de HELE paragraaf markeert
+                        // voor een woord-voor-woord markering is meer logica nodig
+                        // (zie opmerking hieronder voor meer geavanceerde aanpak)
+
+                        let currentSpeechOffset = 0;
+                        let foundParagraph = false;
+
+                        for (let i = 0; i < paragraphs.length; i++) {
+                            const pText = paragraphs[i].innerText + ' '; // Voeg spatie toe voor splitsing
+                            const pLength = pText.length;
+
+                            if (event.charIndex >= currentSpeechOffset && event.charIndex < currentSpeechOffset + pLength) {
+                                // De huidige gesproken tekst valt binnen deze paragraaf
+                                removeHighlights(); // Verwijder eerdere highlights
+                                paragraphs[i].classList.add('highlight'); // Markeer de huidige paragraaf
+                                currentParagraphIndex = i;
+                                foundParagraph = true;
+                                break;
+                            }
+                            currentSpeechOffset += pLength;
+                        }
+                    };
+
+                    window.speechSynthesis.speak(currentUtterance);
+                    isPlaying = true;
+                    leesVoorKnop.textContent = 'Stop Voorlezen';
+                } else {
+                    alert('Je browser ondersteunt helaas geen spraaksynthese.');
+                }
+            } else {
+                // Stop het voorlezen en verwijder highlights
+                window.speechSynthesis.cancel();
+                isPlaying = false;
+                leesVoorKnop.textContent = 'Lees Blog Voor';
+                removeHighlights();
+                currentParagraphIndex = 0;
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

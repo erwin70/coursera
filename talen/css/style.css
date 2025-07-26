@@ -1,0 +1,55 @@
+/* Aangepaste styling voor de knoppen en selectboxen */
+.btn {
+    @apply px-4 py-2 rounded-full font-semibold text-lg transition duration-300 ease-in-out shadow-md flex items-center justify-center; /* Flex voor centreren iconen, kleinere padding */
+    min-width: 48px; /* Zorg ervoor dat knoppen niet te klein worden */
+}
+.btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+}
+.btn-secondary {
+    @apply bg-gray-300 text-gray-800 hover:bg-gray-400;
+}
+.btn-danger {
+    @apply bg-red-500 text-white hover:bg-red-600;
+}
+.btn-disabled {
+    @apply opacity-50 cursor-not-allowed;
+}
+.select-wrapper {
+    @apply relative inline-block w-full;
+}
+.select-wrapper select {
+    @apply block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-blue-500;
+}
+.select-wrapper::after {
+    content: '▼'; /* Custom dropdown arrow */
+    @apply absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500;
+}
+.form-input {
+    @apply shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500;
+}
+.message-box {
+    @apply p-3 mt-4 rounded-md text-sm text-center;
+}
+.message-success {
+    @apply bg-green-100 text-green-700;
+}
+.message-error {
+    @apply bg-red-100 text-red-700;
+}
+.message-info {
+    @apply bg-blue-100 text-blue-700;
+}
+/* Styling voor SVG iconen binnen knoppen */
+.btn svg {
+    @apply h-6 w-6; /* Standaard formaat voor iconen */
+    fill: currentColor; /* Zorgt ervoor dat het icoon de tekstkleur overneemt */
+}
+/* Specifieke styling voor de thumbs-up knop */
+#mark-known-button {
+    @apply bg-green-500 text-white hover:bg-green-600;
+}
+/* Specifieke styling voor de start luistermodus knop */
+#start-listening-button {
+    @apply bg-green-600 text-white hover:bg-green-700;
+}

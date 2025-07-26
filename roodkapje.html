@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voorleessite voor Kinderen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
+        .highlight {
+            background-color: #fef08a; /* Een vrolijke, gele markeerkleur */
+            border-radius: 4px;
+            padding: 2px;
+        }
+        .story-content {
+            line-height: 2.2; /* Extra ruimte tussen de regels voor leesbaarheid */
+        }
+    </style>
+</head>
+<body class="bg-amber-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl p-6 sm:p-10">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-bold text-amber-600">Verhalenhoek</h1>
+            <p class="text-gray-500 mt-2">Kies een verhaal en luister mee!</p>
+        </header>
+
+        <main>
+            <div id="story-container" class="bg-amber-50 rounded-xl p-6 sm:p-8">
+                <h2 id="story-title" class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Roodkapje</h2>
+                <div id="story-content" class="story-content text-lg text-gray-700">
+                    <!-- Het verhaal wordt hier door JavaScript ingeladen -->
+                </div>
+            </div>
+
+            <!-- Knoppen voor de voorleesfunctie -->
+            <div id="controls" class="flex justify-center items-center space-x-4 mt-8">
+                <button id="play-btn" class="bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg transition-transform transform hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <button id="pause-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-full p-4 shadow-lg transition-transform transform hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h1a1 1 0 001-1V8a1 1 0 00-1-1H8zm3 0a1 1 0 00-1 1v4a1 1 0 001 1h1a1 1 0 001-1V8a1 1 0 00-1-1h-1z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <button id="stop-btn" class="bg-red-500 hover:bg-red-600 text-white rounded-full p-4 shadow-lg transition-transform transform hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 9a1 1 0 00-1 1v1a1 1 0 001 1h3a1 1 0 001-1v-1a1 1 0 00-1-1H8z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            <div id="compatibility-message" class="text-center text-red-500 mt-4 hidden">
+                Sorry, je browser ondersteunt de voorleesfunctie niet. Probeer het in Chrome of Safari.
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Elementen ophalen van de pagina
+            const storyContentEl = document.getElementById('story-content');
+            const playBtn = document.getElementById('play-btn');
+            const pauseBtn = document.getElementById('pause-btn');
+            const stopBtn = document.getElementById('stop-btn');
+            const compatibilityMessage = document.getElementById('compatibility-message');
+
+            // Het verhaal van Roodkapje
+            const storyText = "Er was eens een lief klein meisje dat iedereen Magda noemde. Op een dag zei haar moeder: 'Magda, hier heb je een stuk koek en een fles vodka. Breng dat naar je grootmoeder, ze is ziek en zwak.' Grootmoeder woonde  in htel Elderschans, wel een half uur van het dorp sluis vandaan. Toen Magda in het bos kwam, liep ze de boze wolf Salar tegen het lijf. Magda wist niet wat slecht of goed is en was niet bang voor hem. 'Goedendag, Magda', zei de Salar. 'Waar ga je zo vroeg heen?' 'Naar grootmoeder.' 'En wat draag je onder je schort?' 'Koek en vodka,' antwoordde Magda. SAlar dacht bij zichzelf: 'Dat jonge, tere ding is een lekker hapje.' Hij liep een poosje met Magda mee en zei toen: 'Magda, zie je die mooie bloemen? Waarom kijk je niet eens om je heen?' Magda sloeg haar ogen op en toen ze zag hoe de zonnestralen door de bomen dansten en hoe alles vol mooie bloemen stond, dacht ze: 'Als ik voor grootmoeder een bosje meeneem, zal ze dat fijn vinden.' En ze liep van het pad af, het bos in om bloemen te zoeken. Maar Salar ging rechtstreeks naar Elderschans de kamer van haar grootmoeder en klopte op de deur.";
+
+            // Controleer of de browser de Speech Synthesis API ondersteunt
+            if (!('speechSynthesis' in window)) {
+                compatibilityMessage.classList.remove('hidden');
+                controls.classList.add('hidden');
+                return;
+            }
+
+            let utterance = null;
+            let wordIndex = 0;
+            const words = storyText.split(/( |\.|\,|\?|\!)/); // Split op spaties en leestekens
+
+            // Maak van elk woord een apart <span> element zodat we het kunnen markeren
+            storyContentEl.innerHTML = words.map(word => `<span>${word}</span>`).join('');
+            const wordSpans = storyContentEl.querySelectorAll('span');
+
+            function setupUtterance() {
+                // Maak een nieuw 'utterance' (uitspraak) object
+                utterance = new SpeechSynthesisUtterance(storyText);
+                utterance.lang = 'nl-NL'; // Stel de taal in op Nederlands
+                utterance.rate = 0.9; // Iets langzamer voorlezen
+
+                // Deze functie wordt aangeroepen als de voorleesfunctie stopt
+                utterance.onend = () => {
+                    wordIndex = 0;
+                    removeHighlights();
+                };
+
+                // Deze functie wordt aangeroepen voor elk woord dat wordt uitgesproken
+                utterance.onboundary = (event) => {
+                    if (event.name === 'word') {
+                        removeHighlights();
+                        // Zoek het juiste woord en markeer het
+                        while (wordIndex < words.length && event.charIndex >= (words.slice(0, wordIndex + 1).join('').length)) {
+                            wordIndex++;
+                        }
+                        if (wordSpans[wordIndex]) {
+                           wordSpans[wordIndex].classList.add('highlight');
+                        }
+                    }
+                };
+            }
+            
+            function removeHighlights() {
+                wordSpans.forEach(span => span.classList.remove('highlight'));
+            }
+
+            playBtn.addEventListener('click', () => {
+                // Als er nog niks wordt afgespeeld, start het verhaal
+                if (speechSynthesis.paused && utterance) {
+                    speechSynthesis.resume();
+                } else if (!speechSynthesis.speaking) {
+                    wordIndex = 0;
+                    setupUtterance();
+                    speechSynthesis.speak(utterance);
+                }
+            });
+
+            pauseBtn.addEventListener('click', () => {
+                // Pauzeer als er iets wordt afgespeeld
+                if (speechSynthesis.speaking) {
+                    speechSynthesis.pause();
+                }
+            });
+
+            stopBtn.addEventListener('click', () => {
+                // Stop de voorleesfunctie
+                if (speechSynthesis.speaking || speechSynthesis.paused) {
+                    speechSynthesis.cancel();
+                    wordIndex = 0;
+                    removeHighlights();
+                }
+            });
+            
+            // Zorg ervoor dat de voorleesfunctie stopt als de gebruiker de pagina verlaat
+            window.addEventListener('beforeunload', () => {
+                speechSynthesis.cancel();
+            });
+
+        });
+    </script>
+</body>
+</html>

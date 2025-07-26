@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hongaars Leren: Categorie Sorteerfix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Aangepaste styling voor de knoppen en selectboxen */
+        .btn {
+            @apply px-4 py-2 rounded-full font-semibold text-lg transition duration-300 ease-in-out shadow-md flex items-center justify-center; /* Flex voor centreren iconen, kleinere padding */
+            min-width: 48px; /* Zorg ervoor dat knoppen niet te klein worden */
+        }
+        .btn-primary {
+            @apply bg-blue-600 text-white hover:bg-blue-700;
+        }
+        .btn-secondary {
+            @apply bg-gray-300 text-gray-800 hover:bg-gray-400;
+        }
+        .btn-danger {
+            @apply bg-red-500 text-white hover:bg-red-600;
+        }
+        .btn-disabled {
+            @apply opacity-50 cursor-not-allowed;
+        }
+        .select-wrapper {
+            @apply relative inline-block w-full;
+        }
+        .select-wrapper select {
+            @apply block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-blue-500;
+        }
+        .select-wrapper::after {
+            content: '▼'; /* Custom dropdown arrow */
+            @apply absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500;
+        }
+        .form-input {
+            @apply shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500;
+        }
+        .message-box {
+            @apply p-3 mt-4 rounded-md text-sm text-center;
+        }
+        .message-success {
+            @apply bg-green-100 text-green-700;
+        }
+        .message-error {
+            @apply bg-red-100 text-red-700;
+        }
+        .message-info {
+            @apply bg-blue-100 text-blue-700;
+        }
+        /* Styling voor SVG iconen binnen knoppen */
+        .btn svg {
+            @apply h-6 w-6; /* Standaard formaat voor iconen */
+            fill: currentColor; /* Zorgt ervoor dat het icoon de tekstkleur overneemt */
+        }
+        /* Specifieke styling voor de thumbs-up knop */
+        #mark-known-button {
+            @apply bg-green-500 text-white hover:bg-green-600;
+        }
+        /* Specifieke styling voor de start luistermodus knop */
+        #start-listening-button {
+            @apply bg-green-600 text-white hover:bg-green-700;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gradient-to-br from-blue-100 to-purple-100 text-gray-800 p-4 sm:p-6 md:p-8 min-h-screen flex flex-col justify-center items-center">
+
+    <div class="max-w-xl w-full bg-white shadow-xl rounded-2xl p-6 sm:p-8 text-center border-b-4 border-blue-500">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-800 mb-6">Hongaars Leren</h1>
+
+        <!-- Categorie selectie -->
+        <div class="select-wrapper w-full mb-8">
+            <label for="category-select" class="block text-sm font-medium text-gray-700 mb-1 text-left">Selecteer categorie:</label>
+            <select id="category-select" class="form-input"></select>
+        </div>
+
+        <div class="word-display mb-10 bg-blue-50 p-6 rounded-lg border border-blue-200">
+            <p id="hungarian-word" class="text-4xl sm:text-5xl font-bold text-blue-700 mb-4">Geen woorden om te leren</p>
+            <p id="dutch-word" class="text-2xl sm:text-3xl text-gray-700">No words left to learn</p>
+        </div>
+
+        <!-- Knoppenrij voor navigatie en markeren -->
+        <div class="flex flex-row flex-nowrap justify-around items-center space-x-2 mb-8 w-full">
+            <button id="prev-button" class="btn btn-secondary">
+                <!-- Vorige icoon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
+                    <path d="M11.9997 12.0001L18.3331 18.3334L16.9188 19.7477L8.58447 11.4134L16.9188 3.0791L18.3331 4.49335L11.9997 10.8267L11.9997 12.0001Z" />
+                    <path d="M5.66634 12.0001L11.9997 18.3334L10.5855 19.7477L2.2511 11.4134L10.5855 3.0791L11.9997 4.49335L5.66634 10.8267L5.66634 12.0001Z" />
+                </svg>
+            </button>
+            <button id="read-aloud-button" class="btn btn-primary">
+                <!-- Voorlees icoon (speaker) -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
+                    <path d="M4 18H8L13 23V1L8 6H4V18ZM15 15.5C16.869 14.529 18 12.381 18 10C18 7.619 16.869 5.471 15 4.5V15.5ZM15 17.5V20C18.509 18.847 21 14.733 21 10C21 5.267 18.509 1.153 15 0V2.5C17.156 3.633 18.5 6.619 18.5 10C18.5 13.381 17.156 16.367 15 17.5Z" />
+                </svg>
+            </button>
+            <button id="next-button" class="btn btn-secondary">
+                <!-- Volgende icoon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
+                    <path d="M12.0003 12.0001L5.66699 5.66675L7.08124 4.2525L15.4156 12.5868L7.08124 20.9212L5.66699 19.5069L12.0003 13.1735V12.0001Z" />
+                    <path d="M18.3337 12.0001L12.0003 5.66675L13.4146 4.2525L21.7489 12.5868L13.4146 20.9212L12.0003 19.5069L18.3337 13.1735V12.0001Z" />
+                </svg>
+            </button>
+            <button id="mark-known-button" class="btn">
+                <!-- Duimpje omhoog icoon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
+                    <path d="M14.6396 2.57143C14.0796 2.57143 13.5696 2.89286 13.2996 3.39286L8.49961 12.2857V21.4286H18.8567C19.6001 21.4286 20.2522 20.9099 20.4674 20.1772L22.4674 13.2486C22.6826 12.5159 22.3862 11.6964 21.7489 11.2321L17.2146 7.96429C16.893 7.73214 16.5173 7.60714 16.1303 7.60714H15.8567L14.6396 2.57143ZM4.57143 12.2857V21.4286H2.28571V12.2857H4.57143Z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Knoppen voor Luistermodus -->
+        <div class="flex flex-row flex-nowrap justify-center items-center space-x-4 mb-8 w-full">
+            <button id="start-listening-button" class="btn">
+                Start
+            </button>
+            <button id="stop-listening-button" class="btn btn-danger disabled">
+                Stop
+            </button>
+        </div>
+
+        <p class="text-sm text-gray-500 mb-8">
+            Woord <span id="current-index">0</span> van <span id="total-words">0</span>
+        </p>
+
+        <!-- Menu knop voor opties -->
+        <button id="options-button" class="btn btn-secondary w-full mb-8">
+            Opties
+        </button>
+
+        <!-- Opties menu inhoud (standaard verborgen) -->
+        <div id="options-menu-content" class="space-y-8 hidden">
+            <!-- Spraaksnelheid selectie -->
+            <div class="select-wrapper w-full">
+                <label for="speech-rate-select" class="block text-sm font-medium text-gray-700 mb-1 text-left">Spraaksnelheid:</label>
+                <select id="speech-rate-select" class="form-input"></select>
+            </div>
+
+            <!-- Pauzeduur selectie -->
+            <div class="select-wrapper w-full">
+                <label for="pause-duration-select" class="block text-sm font-medium text-gray-700 mb-1 text-left">Pauze tussen woorden:</label>
+                <select id="pause-duration-select" class="form-input"></select>
+            </div>
+
+            <!-- Formulier om nieuwe woorden toe te voegen -->
+            <div class="mt-8 pt-8 border-t border-gray-200">
+                <h2 class="text-2xl font-semibold text-blue-700 mb-4">Voeg een nieuw woord toe</h2>
+                <form id="add-word-form" class="space-y-4 text-left">
+                    <div>
+                        <label for="new-hungarian-word" class="block text-sm font-medium text-gray-700">Hongaars woord:</label>
+                        <input type="text" id="new-hungarian-word" class="form-input mt-1" placeholder="Bijv. Szia">
+                    </div>
+                    <div>
+                        <label for="new-dutch-word" class="block text-sm font-medium text-gray-700">Nederlands woord:</label>
+                        <input type="text" id="new-dutch-word" class="form-input mt-1" placeholder="Bijv. Hallo">
+                    </div>
+                    <div>
+                        <label for="new-word-category" class="block text-sm font-medium text-gray-700">Categorie:</label>
+                        <input type="text" id="new-word-category" class="form-input mt-1" placeholder="Bijv. Begroeting">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full">Woord toevoegen</button>
+                    <p id="form-message" class="message-box message-info hidden"></p>
+                </form>
+            </div>
+
+            <!-- Reset gekende woorden knop -->
+            <div class="mt-8 pt-8 border-t border-gray-200">
+                <button id="reset-known-words-button" class="btn btn-danger w-full">
+                    Reset alle gekende woorden
+                </button>
+                <p id="reset-message" class="message-box message-info hidden"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Standaard woordenlijst voor Hongaars-Nederlands
+            const defaultWordList = [
+
+
+                { hu: "Szia", nl: "Hallo", known: false, category: "Les 1: Begroeting" },
+                { hu: "Sziasztok", nl: "Hallo", known: false, category: "Les 1: Begroeting" },
+                { hu: "Jó reggelt", nl: "Goedemorgen", known: false, category: "Les 1: Begroeting" },
+                { hu: "Jó napot", nl: "Goedendag", known: false, category: "Les 1: Begroeting" },
+                { hu: "Viszlát", nl: "Dag", known: false, category: "Les 1: Begroeting" },
+                { hu: "Viszontlátásra", nl: "Tot ziens (formeel)", known: false, category: "Les 1: Begroeting" },
+                { hu: "Hogy vagy?", nl: "Hoe gaat het?", known: false, category: "Les 1: Begroeting" },
+                { hu: "Jól vagyok", nl: "Het gaat goed", known: false, category: "Les 1: Begroeting" },
+
+
+                { hu: "Kérem", nl: "Alstublieft", known: false, category: "Les 2: Algemeen" },
+                { hu: "Köszönöm", nl: "Dank u wel", known: false, category: "Les 2: Algemeen" },
+                { hu: "Elnézést", nl: "Sorry", known: false, category: "Les 2: Algemeen" },
+                { hu: "Igen", nl: "Ja", known: false, category: "Les 2: Algemeen" },
+                { hu: "Nem", nl: "Nee", known: false, category: "Les 2: Algemeen" },
+                { hu: "A nevem...", nl: "Mijn naam is...", known: false, category: "Les 2: Algemeen" },
+                { hu: "Örvendek", nl: "Aangenaam", known: false, category: "Les 2: Algemeen" },
+                { hu: "Segítség", nl: "Hulp", known: false, category: "Les 2: Algemeen" },
+
+
+
+
+
+             /*
+                { hu: "Víz", nl: "Water", known: false, category: "Eten & Drinken" },
+                { hu: "Kávé", nl: "Koffie", known: false, category: "Eten & Drinken" },
+                { hu: "Tea", nl: "Thee", known: false, category: "Eten & Drinken" },
+                { hu: "Kenyér", nl: "Brood", known: false, category: "Eten & Drinken" },
+                { hu: "Egy", nl: "Eén", known: false, category: "Tellen" },
+                { hu: "Kettő", nl: "Twee", known: false, category: "Tellen" },
+                { hu: "Három", nl: "Drie", known: false, category: "Tellen" },
+                { hu: "Gdzie jest...?", nl: "Waar is...?", known: false, category: "Reizen" },
+                { hu: "Mennyibe kerül?", nl: "Hoeveel kost het?", known: false, category: "Winkelen" },
+                { hu: "Balra", nl: "Links", known: false, category: "Navigatie" },
+                { hu: "Jobbra", nl: "Rechts", known: false, category: "Navigatie" },
+                { hu: "Egyenesen", nl: "Rechtdoor", known: false, category: "Navigatie" },
+                { hu: "Vonat", nl: "Trein", known: false, category: "Vervoer" },
+                { hu: "Busz", nl: "Bus", known: false, category: "Vervoer" },
+                { hu: "Repülőtér", nl: "Luchthaven", known: false, category: "Vervoer" },
+                { hu: "Szálloda", nl: "Hotel", known: false, category: "Reizen" },
+                { hu: "Étterem", nl: "Restaurant", known: false, category: "Eten & Drinken" },
+                { hu: "Jó étvágyat", nl: "Eet smakelijk", known: false, category: "Eten & Drinken" },
+                { hu: "Egészségedre!", nl: "Proost! / Gezondheid!", known: false, category: "Algemeen" },
+                { hu: "Jó éjszakát", nl: "Goedenacht", known: false, category: "Begroeting" },
+                { hu: "Reggel", nl: "Ochtend", known: false, category: "Tijden" },
+                { hu: "Este", nl: "Avond", known: false, category: "Tijden" },
+                { hu: "Ma", nl: "Vandaag", known: false, category: "Tijden" },
+                { hu: "Holnap", nl: "Morgen", known: false, category: "Tijden" },
+                { hu: "Tegnap", nl: "Gisteren", known: false, category: "Tijden" },
+                { hu: "Kicsi", nl: "Klein", known: false, category: "Beschrijvingen" },
+                { hu: "Nagy", nl: "Groot", known: false, category: "Beschrijvingen" },
+                { hu: "Meleg", nl: "Warm", known: false, category: "Weer" },
+                { hu: "Hideg", nl: "Koud", known: false, category: "Weer" },
+                { hu: "Nap", nl: "Zon", known: false, category: "Weer" },
+                { hu: "Eső", nl: "Regen", known: false, category: "Weer" },
+                { hu: "Könyv", nl: "Boek", known: false, category: "Algemeen" },
+                { hu: "Telefon", nl: "Telefoon", known: false, category: "Technologie" },
+                { hu: "Számítógép", nl: "Computer", known: false, category: "Technologie" },
+                { hu: "Autó", nl: "Auto", known: false, category: "Vervoer" },
+                { hu: "Ház", nl: "Huis", known: false, category: "Wonen" },
+                { hu: "Család", nl: "Familie", known: false, category: "Mensen" },
+                { hu: "Barát", nl: "Vriend", known: false, category: "Mensen" },
+                { hu: "Munka", nl: "Werk", known: false, category: "Algemeen" },
+                { hu: "Iskola", nl: "School", known: false, category: "Algemeen" },
+                { hu: "Tanulni", nl: "Leren", known: false, category: "Algemeen" },
+                { hu: "Beszélni", nl: "Spreken", known: false, category: "Algemeen" },
+                { hu: "Érteni", nl: "Begrijpen", known: false, category: "Algemeen" },
+                { hu: "Nem értem", nl: "Ik begrijp het niet", known: false, category: "Algemeen" },
+                { hu: "Ismételje meg, kérem", nl: "Herhaal alstublieft", known: false, category: "Algemeen" },
+                { hu: "Lassabban, kérem", nl: "Langzamer alstublieft", known: false, category: "Algemeen" },
+                { hu: "Mi ez?", nl: "Wat is dit?", known: false, category: "Algemeen" },
+                { hu: "Azt akarom", nl: "Ik wil", known: false, category: "Algemeen" },
+                { hu: "Szükségem van", nl: "Ik heb nodig", known: false, category: "Algemeen" },
+                { hu: "Segítsen nekem", nl: "Help me", known: false, category: "Algemeen" },
+                { hu: "Éhes vagyok", nl: "Ik heb honger", known: false, category: "Gevoelens" },
+                { hu: "Szomjas vagyok", nl: "Ik heb dorst", known: false, category: "Gevoelens" },
+                { hu: "Fáradt vagyok", nl: "Ik ben moe", known: false, category: "Gevoelens" },
+                { hu: "Boldog", nl: "Blij", known: false, category: "Gevoelens" },
+                { hu: "Szomorú", nl: "Verdrietig", known: false, category: "Gevoelens" },
+                { hu: "Mérges", nl: "Boos", known: false, category: "Gevoelens" },
+                { hu: "Jó", nl: "Goed", known: false, category: "Beschrijvingen" },
+                { hu: "Rossz", nl: "Slecht", known: false, category: "Beschrijvingen" },
+                { hu: "Új", nl: "Nieuw", known: false, category: "Beschrijvingen" },
+                { hu: "Régi", nl: "Oud", known: false, category: "Beschrijvingen" },
+                { hu: "Szép", nl: "Mooi", known: false, category: "Beschrijvingen" },
+                { hu: "Csúnya", nl: "Lelijk", known: false, category: "Beschrijvingen" },
+                { hu: "Gyors", nl: "Snel", known: false, category: "Beschrijvingen" },
+                { hu: "Lassú", nl: "Langzaam", known: false, category: "Beschrijvingen" },
+                { hu: "Sok", nl: "Veel", known: false, category: "Hoeveelheid" },
+                { hu: "Kevés", nl: "Weinig", known: false, category: "Hoeveelheid" },
+                { hu: "Most", nl: "Nu", known: false, category: "Tijden" },
+                { hu: "Később", nl: "Later", known: false, category: "Tijden" },
+                { hu: "Korábban", nl: "Eerder", known: false, category: "Tijden" },
+                { hu: "Mindig", nl: "Altijd", known: false, category: "Tijden" },
+                { hu: "Soha", nl: "Nooit", known: false, category: "Tijden" },
+                { hu: "Gyakran", nl: "Vaak", known: false, category: "Tijden" },
+                { hu: "Ritkán", nl: "Zelden", known: false, category: "Tijden" },
+                { hu: "Mindenhol", nl: "Overal", known: false, category: "Plaatsen" },
+                { hu: "Sehol", nl: "Nergens", known: false, category: "Plaatsen" },
+                { hu: "Itt", nl: "Hier", known: false, category: "Plaatsen" },
+                { hu: "Ott", nl: "Daar", known: false, category: "Plaatsen" },
+                { hu: "Ki?", nl: "Wie?", known: false, category: "Vragen" },
+                { hu: "Mi?", nl: "Wat?", known: false, category: "Vragen" },
+                { hu: "Mikor?", nl: "Wanneer?", known: false, category: "Vragen" },
+                { hu: "Miért?", nl: "Waarom?", known: false, category: "Vragen" },
+                { hu: "Hogyan?", nl: "Hoe?", known: false, category: "Vragen" },
+                { hu: "Melyik?", nl: "Welke?", known: false, category: "Vragen" },
+                { hu: "Pénz", nl: "Geld", known: false, category: "Winkelen" },
+                { hu: "Bolt", nl: "Winkel", known: false, category: "Winkelen" },
+                { hu: "Piac", nl: "Markt", known: false, category: "Winkelen" },
+                { hu: "Gyógyszertár", nl: "Apotheek", known: false, category: "Plaatsen" },
+                { hu: "Orvos", nl: "Dokter", known: false, category: "Mensen" },
+                { hu: "Kórház", nl: "Ziekenhuis", known: false, category: "Plaatsen" },
+                { hu: "Rendőrség", nl: "Politie", known: false, category: "Mensen" },
+                { hu: "Segítség!", nl: "Help!", known: false, category: "Noodgeval" },
+                { hu: "Tűz!", nl: "Brand!", known: false, category: "Noodgeval" },
+                { hu: "Tolvaj!", nl: "Dief!", known: false, category: "Noodgeval" },
+                { hu: "Segélyhívó", nl: "Noodtelefoon", known: false, category: "Noodgeval" },
+                { hu: "Útlevél", nl: "Paspoort", known: false, category: "Reizen" },
+                { hu: "Jegy", nl: "Ticket", known: false, category: "Reizen" },
+                { hu: "Térkép", nl: "Kaart", known: false, category: "Reizen" },
+                { hu: "Cím", nl: "Adres", known: false, category: "Reizen" },
+                { hu: "Telefonszám", nl: "Telefoonnummer", known: false, category: "Technologie" },
+                { hu: "E-mail", nl: "E-mail", known: false, category: "Technologie" },
+                { hu: "Internet", nl: "Internet", known: false, category: "Technologie" },
+                { hu: "Mobiltelefon", nl: "Mobiele telefoon", known: false, category: "Technologie" },
+                { hu: "Töltő", nl: "Oplader", known: false, category: "Technologie" },
+                { hu: "Akkumulátor", nl: "Batterij", known: false, category: "Technologie" },
+                { hu: "Kulcs", nl: "Sleutel", known: false, category: "Wonen" },
+                { hu: "Ajtó", nl: "Deur", known: false, category: "Wonen" },
+                { hu: "Ablak", nl: "Raam", known: false, category: "Wonen" },
+                { hu: "Asztal", nl: "Tafel", known: false, category: "Wonen" },
+                { hu: "Szék", nl: "Stoel", known: false, category: "Wonen" },
+                { hu: "Ágy", nl: "Bed", known: false, category: "Wonen" },
+                { hu: "Szoba", nl: "Kamer", known: false, category: "Wonen" },
+                { hu: "Fürdőszoba", nl: "Badkamer", known: false, category: "Badkamer" },
+                { hu: "WC", nl: "Toilet", known: false, category: "Badkamer" },
+                { hu: "Zuhany", nl: "Douche", known: false, category: "Badkamer" },
+                { hu: "Szappan", nl: "Zeep", known: false, category: "Badkamer" },
+                { hu: "Törölköző", nl: "Handdoek", known: false, category: "Badkamer" },
+                { hu: "Fogak", nl: "Tanden", known: false, category: "Badkamer" },
+                { hu: "Fogkefe", nl: "Tandenborstel", known: false, category: "Badkamer" },
+                { hu: "Fogkrém", nl: "Tandpasta", known: false, category: "Badkamer" },
+                { hu: "Haj", nl: "Haar", known: false, category: "Badkamer" },
+                { hu: "Fésű", nl: "Kam", known: false, category: "Badkamer" },
+                { hu: "Sampon", nl: "Shampoo", known: false, category: "Badkamer" },
+                { hu: "Ruhák", nl: "Kleding", known: false, category: "Kleding" },
+                { hu: "Cipő", nl: "Schoenen", known: false, category: "Kleding" },
+                { hu: "Kabát", nl: "Jas", known: false, category: "Kleding" },
+                { hu: "Ing", nl: "Overhemd", known: false, category: "Kleding" },
+                { hu: "Nadrág", nl: "Broek", known: false, category: "Kleding" },
+                { hu: "Ruha", nl: "Jurk", known: false, category: "Kleding" },
+                { hu: "Szoknya", nl: "Rok", known: false, category: "Kleding" },
+                { hu: "Sapka", nl: "Muts", known: false, category: "Kleding" },
+                { hu: "Kesztyű", nl: "Handschoenen", known: false, category: "Kleding" },
+                { hu: "Zokni", nl: "Sokken", known: false, category: "Kleding" },
+                { hu: "Esernyő", nl: "Paraplu", known: false, category: "Weer" },
+                { hu: "Nap", nl: "Zon", known: false, category: "Natuur" },
+                { hu: "Hold", nl: "Maan", known: false, category: "Natuur" },
+                { hu: "Csillag", nl: "Ster", known: false, category: "Natuur" },
+                { hu: "Ég", nl: "Lucht", known: false, category: "Natuur" },
+                { hu: "Föld", nl: "Aarde", known: false, category: "Natuur" },
+                { hu: "Tenger", nl: "Zee", known: false, category: "Natuur" },
+                { hu: "Folyó", nl: "Rivier", known: false, category: "Natuur" },
+                { hu: "Hegy", nl: "Berg", known: false, category: "Natuur" },
+                { hu: "Erdő", nl: "Bos", known: false, category: "Natuur" },
+                { hu: "Város", nl: "Stad", known: false, category: "Plaatsen" },
+                { hu: "Falu", nl: "Dorp", known: false, category: "Plaatsen" },
+                { hu: "Utca", nl: "Straat", known: false, category: "Plaatsen" },
+                { hu: "Tér", nl: "Plein", known: false, category: "Plaatsen" },
+                { hu: "Park", nl: "Park", known: false, category: "Plaatsen" },
+                { hu: "Híd", nl: "Brug", known: false, category: "Plaatsen" },
+                { hu: "Templom", nl: "Kerk", known: false, category: "Plaatsen" },
+                { hu: "Múzeum", nl: "Museum", known: false, category: "Plaatsen" },
+                { hu: "Színház", nl: "Theater", known: false, category: "Plaatsen" },
+                { hu: "Mozi", nl: "Bioscoop", known: false, category: "Plaatsen" },
+                { hu: "Könyvtár", nl: "Bibliotheek", known: false, category: "Plaatsen" },
+                { hu: "Bank", nl: "Bank", known: false, category: "Plaatsen" },
+                { hu: "Posta", nl: "Postkantoor", known: false, category: "Plaatsen" },
+                { hu: "Vasútállomás", nl: "Treinstation", known: false, category: "Vervoer" },
+                { hu: "Buszmegálló", nl: "Bushalte", known: false, category: "Vervoer" },
+                { hu: "Taxi", nl: "Taxi", known: false, category: "Vervoer" },
+                { hu: "Kerékpár", nl: "Fiets", known: false, category: "Vervoer" },
+                { hu: "Gyalog", nl: "Te voet", known: false, category: "Vervoer" },
+                { hu: "Autóval", nl: "Met de auto", known: false, category: "Vervoer" },
+                { hu: "Busszal", nl: "Met de bus", known: false, category: "Vervoer" },
+                { hu: "Vonattal", nl: "Met de trein", known: false, category: "Vervoer" },
+                { hu: "Repülővel", nl: "Met het vliegtuig", known: false, category: "Vervoer" },
+                { hu: "Hajó", nl: "Schip", known: false, category: "Vervoer" },
+                { hu: "Csónak", nl: "Boot", known: false, category: "Vervoer" },
+                { hu: "Úszni", nl: "Zwemmen", known: false, category: "Acties" },
+                { hu: "Futni", nl: "Rennen", known: false, category: "Acties" },
+                { hu: "Sétálni", nl: "Wandelen", known: false, category: "Acties" },
+                { hu: "Enni", nl: "Eten", known: false, category: "Acties" },
+                { hu: "Inni", nl: "Drinken", known: false, category: "Acties" },
+                { hu: "Esni", nl: "Vallen", known: false, category: "Acties" },
+                { hu: "Felkelni", nl: "Opstaan", known: false, category: "Acties" },
+                { hu: "Ülni", nl: "Zitten", known: false, category: "Acties" },
+                { hu: "Állj fel", nl: "Sta op", known: false, category: "Acties" },
+                { hu: "Nyitni", nl: "Openen", known: false, category: "Acties" },
+                { hu: "Zárni", nl: "Sluiten", known: false, category: "Acties" },
+                { hu: "Venni", nl: "Kopen", known: false, category: "Acties" },
+                { hu: "Eladni", nl: "Verkopen", known: false, category: "Acties" },
+                { hu: "Fizetni", nl: "Betalen", known: false, category: "Acties" },
+                { hu: "Olvasni", nl: "Lezen", known: false, category: "Acties" },
+                { hu: "Írni", nl: "Schrijven", known: false, category: "Acties" },
+                { hu: "Hallgatni", nl: "Luisteren", known: false, category: "Acties" },
+                { hu: "Nézni", nl: "Kijken", known: false, category: "Acties" },
+                { hu: "Énekelni", nl: "Zingen", known: false, category: "Acties" },
+                { hu: "Táncolni", nl: "Dansen", known: false, category: "Acties" },
+                { hu: "Játszani", nl: "Spelen", known: false, category: "Acties" },
+                { hu: "Főzni", nl: "Koken", known: false, category: "Keuken" },
+                { hu: "Takarítani", nl: "Schoonmaken", known: false, category: "Wonen" },
+                { hu: "Mosni", nl: "Wassen", known: false, category: "Wonen" },
+                { hu: "Tányér", nl: "Bord", known: false, category: "Keuken" },
+                { hu: "Villa", nl: "Vork", known: false, category: "Keuken" },
+                { hu: "Kés", nl: "Mes", known: false, category: "Keuken" },
+                { hu: "Kanál", nl: "Lepel", known: false, category: "Keuken" },
+                { hu: "Bögre", nl: "Mok", known: false, category: "Keuken" },
+                { hu: "Pohár", nl: "Glas", known: false, category: "Keuken" },
+                { hu: "Fazék", nl: "Pan", known: false, category: "Keuken" },
+                { hu: "Serpenyő", nl: "Koekenpan", known: false, category: "Keuken" },
+                { hu: "Hűtőszekrény", nl: "Koelkast", known: false, category: "Keuken" },
+                { hu: "Tűzhely", nl: "Fornuis", known: false, category: "Keuken" },
+                { hu: "Mosogató", nl: "Spoelbak", known: false, category: "Keuken" },
+             */
+                // Voorbeeld van Les-categorieën
+                { hu: "Első", nl: "Eerste", known: false, category: "Les 1" },
+                { hu: "Második", nl: "Tweede", known: false, category: "Les 2" },
+                { hu: "Harmadik", nl: "Derde", known: false, category: "Les 3" },
+                { hu: "Negyedik", nl: "Vierde", known: false, category: "Les 4" },
+                { hu: "Ötödik", nl: "Vijfde", known: false, category: "Les 5" },
+                { hu: "Hatodik", nl: "Zesde", known: false, category: "Les 6" },
+                { hu: "Hetedik", nl: "Zevende", known: false, category: "Les 7" },
+                { hu: "Nyolcadik", nl: "Achtste", known: false, category: "Les 8" },
+                { hu: "Kilencedik", nl: "Negende", known: false, category: "Les 9" },
+                { hu: "Tizedik", nl: "Tiende", known: false, category: "Les 10" },
+                { hu: "Tizenegyedik", nl: "Elfde", known: false, category: "Les 11" },
+                { hu: "Tizenkettedik", nl: "Twaalfde", known: false, category: "Les 12" }
+                
+            ];
+
+            let allWords = []; // All words, including known ones
+            let wordsToLearn = []; // Filtered list of unknown words (based on known & category)
+            let currentWordIndex = 0; // Index within wordsToLearn
+
+            let isListeningModeActive = false;
+            let listeningModeTimeoutId = null; // For the pause between words
+            const MAX_WORDS_IN_LISTENING_MODE = 25; // Maximum number of words in listening mode
+
+            let currentCategory = "Alle"; // Default selected category
+            let currentSpeechRate = 1.0; // Default speech rate
+            let currentPauseDuration = 1000; // Default pause duration in milliseconds (1 second)
+
+            // HTML elements
+            const hungarianWordEl = document.getElementById('hungarian-word');
+            const dutchWordEl = document.getElementById('dutch-word');
+            const readAloudButton = document.getElementById('read-aloud-button');
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            const markKnownButton = document.getElementById('mark-known-button');
+            const resetKnownWordsButton = document.getElementById('reset-known-words-button');
+            const currentIndexEl = document.getElementById('current-index');
+            const totalWordsEl = document.getElementById('total-words');
+            const categorySelect = document.getElementById('category-select'); // Category select
+            const speechRateSelect = document.getElementById('speech-rate-select'); // Speech rate select
+            const pauseDurationSelect = document.getElementById('pause-duration-select'); // New pause duration select
+
+            // New Listening Mode buttons
+            const startListeningButton = document.getElementById('start-listening-button');
+            const stopListeningButton = document.getElementById('stop-listening-button');
+
+            // Form elements
+            const addWordForm = document.getElementById('add-word-form');
+            const newHungarianWordInput = document.getElementById('new-hungarian-word');
+            const newDutchWordInput = document.getElementById('new-dutch-word');
+            const newWordCategoryInput = document.getElementById('new-word-category'); // Category input
+            const formMessage = document.getElementById('form-message');
+            const resetMessage = document.getElementById('reset-message');
+
+            // Menu elements
+            const optionsButton = document.getElementById('options-button');
+            const optionsMenuContent = document.getElementById('options-menu-content');
+
+
+            const synth = window.speechSynthesis;
+            let voices = [];
+            let hungarianVoice = null;
+            let dutchVoice = null;
+
+            // Check if speech synthesis is supported
+            if (!synth) {
+                readAloudButton.disabled = true;
+                readAloudButton.classList.add('btn-disabled');
+                readAloudButton.textContent = "Voorlezen niet ondersteund";
+                startListeningButton.disabled = true;
+                startListeningButton.classList.add('btn-disabled');
+                showMessage(formMessage, "Spraaksynthese wordt niet ondersteund in deze browser. Woorden toevoegen werkt wel.", 'error');
+            }
+
+            /**
+             * Displays a message in the UI.
+             * @param {HTMLElement} element - The HTML element where the message should appear.
+             * @param {string} message - The text of the message.
+             * @param {string} type - The type of message ('success', 'error', 'info').
+             */
+            function showMessage(element, message, type) {
+                element.textContent = message;
+                element.classList.remove('hidden', 'message-success', 'message-error', 'message-info');
+                element.classList.add(`message-${type}`);
+                setTimeout(() => {
+                    element.classList.add('hidden');
+                }, 5000); // Hide message after 5 seconds
+            }
+
+            /**
+             * Loads the word list from localStorage or uses the default list.
+             */
+            function loadAllWords() {
+                const storedWordList = localStorage.getItem('hungarianWords'); // Changed key to 'hungarianWords'
+                if (storedWordList) {
+                    allWords = JSON.parse(storedWordList);
+                    // Ensure all loaded words have a 'known' and 'category' property
+                    allWords.forEach(word => {
+                        if (typeof word.known === 'undefined') word.known = false;
+                        if (typeof word.category === 'undefined') word.category = 'Algemeen'; // Default category
+                    });
+                } else {
+                    allWords = defaultWordList;
+                    saveAllWords(); // Save the default list for the first time
+                }
+            }
+
+            /**
+             * Saves the entire word list to localStorage.
+             */
+            function saveAllWords() {
+                localStorage.setItem('hungarianWords', JSON.stringify(allWords)); // Changed key to 'hungarianWords'
+            }
+
+            /**
+             * Filters the word list to show only unknown words in the selected category.
+             */
+            function filterWordsToLearn() {
+                if (currentCategory === "Alle") {
+                    wordsToLearn = allWords.filter(word => !word.known);
+                } else {
+                    wordsToLearn = allWords.filter(word => !word.known && word.category === currentCategory);
+                }
+            }
+
+            /**
+             * Searches for and sets the specific voices 'Hungarian' and 'Dutch'.
+             * Falls back to language code if the voice is not found.
+             */
+            function setSpecificVoices() {
+                voices = synth.getVoices();
+                // Try to find a Hungarian voice
+                hungarianVoice = voices.find(voice => voice.lang.startsWith('hu-HU'));
+                // Try to find a Dutch voice
+                dutchVoice = voices.find(voice => voice.lang.startsWith('nl-NL'));
+
+                if (!hungarianVoice) {
+                    console.warn("Hongaarse stem niet gevonden. Valt terug op standaard Hongaarse stem.");
+                }
+                if (!dutchVoice) {
+                    console.warn("Nederlandse stem niet gevonden. Valt terug op standaard Nederlandse stem.");
+                }
+            }
+
+            // Populate the voice list as soon as it's available
+            synth.onvoiceschanged = setSpecificVoices;
+            // Call it immediately if voices are already loaded
+            if (synth.getVoices().length > 0) {
+                setSpecificVoices();
+            }
+
+            /**
+             * Populates the category dropdown with unique categories from the word list.
+             */
+            function populateCategorySelect() {
+                const categories = new Set(allWords.map(word => word.category));
+
+                // Custom sort function for categories
+                const sortedCategories = Array.from(categories).sort((a, b) => {
+                    // "Alle" should always come first
+                    if (a === "Alle") return -1;
+                    if (b === "Alle") return 1;
+
+                    // Extract numbers from "Les X" categories
+                    const numA = parseInt(a.replace('Les ', ''));
+                    const numB = parseInt(b.replace('Les ', ''));
+
+                    // If both are "Les X" categories, compare by number
+                    if (!isNaN(numA) && !isNaN(numB)) {
+                        return numA - numB;
+                    }
+
+                    // For other categories or mixed types, use standard alphabetical sort
+                    return a.localeCompare(b);
+                });
+
+                categorySelect.innerHTML = ''; // Clear the select
+
+                // Add the unique categories
+                sortedCategories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category;
+                    option.textContent = category;
+                    categorySelect.appendChild(option);
+                });
+
+                // Select the last chosen category or 'Alle'
+                const savedCategory = localStorage.getItem('selectedHungarianCategory'); // Changed key
+                if (savedCategory && Array.from(categorySelect.options).some(opt => opt.value === savedCategory)) {
+                    categorySelect.value = savedCategory;
+                    currentCategory = savedCategory;
+                } else {
+                    categorySelect.value = "Alle";
+                    currentCategory = "Alle";
+                }
+            }
+
+            /**
+             * Populates the speech rate dropdown with options.
+             */
+            function populateSpeechRateSelect() {
+                // Custom speeds as requested: 0.2, 0.4, 0.6, 0.8, 1.0
+                const rates = [0.2, 0.4, 0.6, 0.8, 1.0];
+                speechRateSelect.innerHTML = ''; // Clear the select
+
+                rates.forEach(rate => {
+                    const option = document.createElement('option');
+                    option.value = rate.toString();
+                    option.textContent = `${rate.toFixed(1)}x snelheid`; // Display 0.2x, 0.4x etc.
+                    speechRateSelect.appendChild(option);
+                });
+
+                // Select the last chosen rate or the default (1.0)
+                const savedRate = localStorage.getItem('selectedHungarianSpeechRate'); // Changed key
+                if (savedRate && Array.from(speechRateSelect.options).some(opt => opt.value === savedRate)) {
+                    speechRateSelect.value = savedRate;
+                    currentSpeechRate = parseFloat(savedRate);
+                } else {
+                    speechRateSelect.value = '1.0'; // Default speed is 1.0
+                    currentSpeechRate = 1.0;
+                }
+            }
+
+            /**
+             * Populates the pause duration dropdown with options.
+             */
+            function populatePauseDurationSelect() {
+                // Pause duration options in seconds
+                const durations = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0];
+                pauseDurationSelect.innerHTML = ''; // Clear the select
+
+                durations.forEach(duration => {
+                    const option = document.createElement('option');
+                    option.value = (duration * 1000).toString(); // Store in milliseconds
+                    option.textContent = `${duration.toFixed(1)} seconde`;
+                    pauseDurationSelect.appendChild(option);
+                });
+
+                // Select the last chosen pause duration or the default (1.0 second)
+                const savedPause = localStorage.getItem('selectedHungarianPauseDuration'); // Changed key
+                if (savedPause && Array.from(pauseDurationSelect.options).some(opt => opt.value === savedPause)) {
+                    pauseDurationSelect.value = savedPause;
+                    currentPauseDuration = parseInt(savedPause);
+                } else {
+                    pauseDurationSelect.value = '1000'; // Default 1 second
+                    currentPauseDuration = 1000;
+                }
+            }
+
+
+            /**
+             * Displays the current word pair on the page.
+             * Adjusts the UI if there are no words to learn in the current selection.
+             */
+            function displayCurrentWord() {
+                if (wordsToLearn.length === 0) {
+                    hungarianWordEl.textContent = "Geen woorden om te leren in deze categorie!";
+                    dutchWordEl.textContent = "No words left to learn in this category!";
+                    currentIndexEl.textContent = 0;
+                    totalWordsEl.textContent = 0;
+                    // Disable all action buttons
+                    readAloudButton.disabled = true;
+                    prevButton.disabled = true;
+                    nextButton.disabled = true;
+                    markKnownButton.disabled = true;
+                    startListeningButton.disabled = true;
+                    addWordForm.querySelector('button[type="submit"]').disabled = false; // Adding words is always possible
+
+                    readAloudButton.classList.add('btn-disabled');
+                    prevButton.classList.add('btn-disabled');
+                    nextButton.classList.add('btn-disabled');
+                    markKnownButton.classList.add('btn-disabled');
+                    startListeningButton.classList.add('btn-disabled');
+                    return;
+                }
+
+                // Ensure the index stays within bounds
+                if (currentWordIndex >= wordsToLearn.length) {
+                    currentWordIndex = wordsToLearn.length - 1;
+                }
+                if (currentWordIndex < 0) {
+                    currentWordIndex = 0;
+                }
+
+                const wordPair = wordsToLearn[currentWordIndex];
+                hungarianWordEl.textContent = wordPair.hu;
+                dutchWordEl.textContent = wordPair.nl;
+                currentIndexEl.textContent = currentWordIndex + 1; // +1 for 1-based index
+                totalWordsEl.textContent = wordsToLearn.length;
+
+                // Update button states
+                readAloudButton.disabled = false;
+                markKnownButton.disabled = false;
+                startListeningButton.disabled = false; // Enable listening mode if there are words
+
+                readAloudButton.classList.remove('btn-disabled');
+                markKnownButton.classList.remove('btn-disabled');
+                startListeningButton.classList.remove('btn-disabled');
+
+                prevButton.disabled = currentWordIndex === 0;
+                if (prevButton.disabled) {
+                    prevButton.classList.add('btn-disabled');
+                } else {
+                    prevButton.classList.remove('btn-disabled');
+                }
+
+                nextButton.disabled = currentWordIndex === wordsToLearn.length - 1;
+                if (nextButton.disabled) {
+                    nextButton.classList.add('btn-disabled');
+                } else {
+                    nextButton.classList.remove('btn-disabled');
+                }
+
+                // Ensure stop button is only active in listening mode
+                stopListeningButton.disabled = !isListeningModeActive;
+                if (stopListeningButton.disabled) {
+                    stopListeningButton.classList.add('btn-disabled');
+                } else {
+                    stopListeningButton.classList.remove('btn-disabled');
+                }
+            }
+
+            /**
+             * Reads the Hungarian word aloud, followed by the Dutch word.
+             */
+            function speakWords() {
+                if (!synth || synth.speaking || wordsToLearn.length === 0) {
+                    return;
+                }
+
+                const hungarianWord = wordsToLearn[currentWordIndex].hu;
+                const dutchWord = wordsToLearn[currentWordIndex].nl;
+
+                const utterThisHungarian = new SpeechSynthesisUtterance(hungarianWord);
+                if (hungarianVoice) {
+                    utterThisHungarian.voice = hungarianVoice;
+                } else {
+                    utterThisHungarian.lang = 'hu-HU'; // Fallback to language code if voice not found
+                }
+                utterThisHungarian.rate = currentSpeechRate; // Set speech rate
+
+                const utterThisDutch = new SpeechSynthesisUtterance(dutchWord);
+                if (dutchVoice) {
+                    utterThisDutch.voice = dutchVoice;
+                } else {
+                    utterThisDutch.lang = 'nl-NL'; // Fallback to language code if voice not found
+                }
+                utterThisDutch.rate = currentSpeechRate; // Set speech rate
+
+                // The pause between words is not directly controlled here
+                // This function is for manual reading.
+                // The pause is controlled in playNextWordInSequence() for listening mode.
+                utterThisHungarian.onend = () => {
+                    synth.speak(utterThisDutch);
+                };
+
+                synth.speak(utterThisHungarian);
+            }
+
+            /**
+             * Plays the next word pair in listening mode.
+             * Calls itself recursively after a pause.
+             */
+            function playNextWordInSequence() {
+                if (!isListeningModeActive || !synth) {
+                    return; // Stop if mode is not active or synth is not available
+                }
+
+                // Determine the words to be played in this loop (first 25 or fewer)
+                const wordsForThisLoop = wordsToLearn.slice(0, MAX_WORDS_IN_LISTENING_MODE);
+
+                if (wordsForThisLoop.length === 0) {
+                    stopListeningMode();
+                    showMessage(formMessage, "Geen woorden om te leren in de luistermodus voor deze categorie.", 'info');
+                    return;
+                }
+
+                // Reset the index if we reach the end of the current loop
+                if (currentWordIndex >= wordsForThisLoop.length) {
+                    currentWordIndex = 0;
+                }
+
+                const wordPair = wordsForThisLoop[currentWordIndex];
+                hungarianWordEl.textContent = wordPair.hu; // Update UI to show the current word
+                dutchWordEl.textContent = wordPair.nl;
+                currentIndexEl.textContent = (currentWordIndex + 1) + ' (Lus)'; // Custom index counter for loop
+                totalWordsEl.textContent = wordsForThisLoop.length;
+
+                const hungarianWord = wordPair.hu;
+                const dutchWord = wordPair.nl;
+
+                const utterThisHungarian = new SpeechSynthesisUtterance(hungarianWord);
+                if (hungarianVoice) {
+                    utterThisHungarian.voice = hungarianVoice;
+                } else {
+                    utterThisHungarian.lang = 'hu-HU';
+                }
+                utterThisHungarian.rate = currentSpeechRate; // Set speech rate
+
+                const utterThisDutch = new SpeechSynthesisUtterance(dutchWord);
+                if (dutchVoice) {
+                    utterThisDutch.voice = dutchVoice;
+                } else {
+                    utterThisDutch.lang = 'nl-NL';
+                }
+                utterThisDutch.rate = currentSpeechRate; // Set speech rate
+
+                utterThisHungarian.onend = () => {
+                    synth.speak(utterThisDutch);
+                };
+
+                utterThisDutch.onend = () => {
+                    // Pause for the chosen duration before the next word starts
+                    listeningModeTimeoutId = setTimeout(() => {
+                        currentWordIndex++; // Go to the next word
+                        playNextWordInSequence(); // Call itself again
+                    }, currentPauseDuration); // Use the selected pause duration
+                };
+
+                synth.speak(utterThisHungarian);
+            }
+
+            /**
+             * Starts listening mode.
+             */
+            function startListeningMode() {
+                if (wordsToLearn.length === 0 || isListeningModeActive) {
+                    if (wordsToLearn.length === 0) {
+                        showMessage(formMessage, "Geen woorden om te leren in de luistermodus voor deze categorie. Voeg woorden toe of reset gekende woorden.", 'info');
+                    }
+                    return;
+                }
+
+                synth.cancel(); // Cancel any ongoing speech
+                clearTimeout(listeningModeTimeoutId); // Clear any ongoing timeouts
+
+                isListeningModeActive = true;
+                currentWordIndex = 0; // Always start at the first word in the filtered list
+
+                // Disable buttons during listening mode
+                readAloudButton.disabled = true;
+                prevButton.disabled = true;
+                nextButton.disabled = true;
+                markKnownButton.disabled = true;
+                startListeningButton.disabled = true;
+                addWordForm.querySelector('button[type="submit"]').disabled = true;
+                speechRateSelect.disabled = true; // Disable speed selection
+                pauseDurationSelect.disabled = true; // Disable pause duration selection
+                categorySelect.disabled = true; // Disable category selection
+                optionsButton.disabled = true; // Disable options button
+
+                readAloudButton.classList.add('btn-disabled');
+                prevButton.classList.add('btn-disabled');
+                nextButton.classList.add('btn-disabled');
+                markKnownButton.classList.add('btn-disabled');
+                startListeningButton.classList.add('btn-disabled');
+                addWordForm.querySelector('button[type="submit"]').classList.add('btn-disabled');
+                speechRateSelect.classList.add('btn-disabled'); // Add disabled styling
+                pauseDurationSelect.classList.add('btn-disabled'); // Add disabled styling
+                categorySelect.classList.add('btn-disabled'); // Add disabled styling
+                optionsButton.classList.add('btn-disabled'); // Add disabled styling
+
+                stopListeningButton.disabled = false;
+                stopListeningButton.classList.remove('btn-disabled');
+
+                // Hide options menu if open when listening mode starts
+                if (!optionsMenuContent.classList.contains('hidden')) {
+                    optionsMenuContent.classList.add('hidden');
+                }
+
+
+                showMessage(formMessage, `Luistermodus gestart. De eerste ${Math.min(wordsToLearn.length, MAX_WORDS_IN_LISTENING_MODE)} onbekende woorden herhalen.`, 'info');
+
+                displayCurrentWord(); // Update UI to show the first word of the sequence
+                playNextWordInSequence();
+            }
+
+            /**
+             * Stops listening mode.
+             */
+            function stopListeningMode() {
+                if (!isListeningModeActive) {
+                    return;
+                }
+
+                isListeningModeActive = false;
+                synth.cancel(); // Stop speaking immediately
+                clearTimeout(listeningModeTimeoutId); // Clear any timeouts
+
+                // Re-enable buttons
+                readAloudButton.disabled = false;
+                prevButton.disabled = false;
+                nextButton.disabled = false;
+                markKnownButton.disabled = false;
+                startListeningButton.disabled = false;
+                addWordForm.querySelector('button[type="submit"]').disabled = false;
+                speechRateSelect.disabled = false; // Re-enable speed selection
+                pauseDurationSelect.disabled = false; // Re-enable pause duration selection
+                categorySelect.disabled = false; // Re-enable category selection
+                optionsButton.disabled = false; // Re-enable options button
+
+                readAloudButton.classList.remove('btn-disabled');
+                prevButton.classList.remove('btn-disabled');
+                nextButton.classList.remove('btn-disabled');
+                markKnownButton.classList.remove('btn-disabled');
+                startListeningButton.classList.remove('btn-disabled');
+                addWordForm.querySelector('button[type="submit"]').classList.remove('btn-disabled');
+                speechRateSelect.classList.remove('btn-disabled'); // Remove disabled styling
+                pauseDurationSelect.classList.remove('btn-disabled'); // Remove disabled styling
+                categorySelect.classList.remove('btn-disabled'); // Remove disabled styling
+                optionsButton.classList.remove('btn-disabled'); // Remove disabled styling
+
+                stopListeningButton.disabled = true;
+                stopListeningButton.classList.add('btn-disabled');
+
+                showMessage(formMessage, "Luistermodus gestopt.", 'info');
+                // Reset currentWordIndex to 0 of the filtered list for normal display
+                currentWordIndex = 0;
+                displayCurrentWord(); // Ensure UI shows correct state after stopping
+            }
+
+            // Initialiseer de app
+            loadAllWords(); // Laad alle woorden (gekend en niet-gekend)
+            populateCategorySelect(); // Vul de categorieën dropdown
+            populateSpeechRateSelect(); // Vul de spraaksnelheid dropdown
+            populatePauseDurationSelect(); // Vul de pauzeduur dropdown
+            filterWordsToLearn(); // Filter om alleen niet-gekende woorden te krijgen
+            displayCurrentWord(); // Toon het eerste niet-gekende woord
+
+            // Event listeners voor navigatie en voorlezen
+            readAloudButton.addEventListener('click', speakWords);
+
+            prevButton.addEventListener('click', function() {
+                if (isListeningModeActive) stopListeningMode(); // Stop luistermodus bij handmatige navigatie
+                if (currentWordIndex > 0) {
+                    currentWordIndex--;
+                    displayCurrentWord();
+                    synth.cancel();
+                }
+            });
+
+            nextButton.addEventListener('click', function() {
+                if (isListeningModeActive) stopListeningMode(); // Stop luistermodus bij handmatige navigatie
+                if (currentWordIndex < wordsToLearn.length - 1) {
+                    currentWordIndex++;
+                    displayCurrentWord();
+                    synth.cancel();
+                }
+            });
+
+            // Event listener voor "Ik ken dit woord!"
+            markKnownButton.addEventListener('click', function() {
+                if (isListeningModeActive) stopListeningMode(); // Stop luistermodus bij markeren
+
+                if (wordsToLearn.length === 0) {
+                    showMessage(formMessage, "Geen woorden meer om te markeren.", 'info');
+                    return;
+                }
+
+                const currentWordPair = wordsToLearn[currentWordIndex];
+                // Zoek het originele woord in de 'allWords' lijst op basis van hu en nl
+                const originalWord = allWords.find(word => word.hu === currentWordPair.hu && word.nl === currentWordPair.nl);
+
+                if (originalWord) {
+                    originalWord.known = true;
+                    saveAllWords();
+                    showMessage(formMessage, `"${originalWord.hu}" gemarkeerd als gekend!`, 'success');
+                }
+
+                filterWordsToLearn(); // Herfilter de lijst na markeren
+                if (wordsToLearn.length > 0) {
+                    // Als het gemarkeerde woord het laatste was, ga terug naar de vorige
+                    if (currentWordIndex >= wordsToLearn.length) {
+                        currentWordIndex = wordsToLearn.length - 1;
+                    }
+                    displayCurrentWord();
+                } else {
+                    displayCurrentWord(); // Toon "Alle woorden gekend!"
+                }
+                synth.cancel();
+            });
+
+            // Event listener voor het toevoegen van een nieuw woord
+            addWordForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                if (isListeningModeActive) stopListeningMode(); // Stop luistermodus bij toevoegen
+
+                const newHungarian = newHungarianWordInput.value.trim();
+                const newDutch = newDutchWordInput.value.trim();
+                const newCategory = newWordCategoryInput.value.trim() || "Algemeen"; // Standaard op "Algemeen" als leeg
+
+                if (newHungarian === '' || newDutch === '') {
+                    showMessage(formMessage, "Hongaars woord en Nederlands woord moeten ingevuld zijn!", 'error');
+                    return;
+                }
+
+                allWords.push({ hu: newHungarian, nl: newDutch, known: false, category: newCategory });
+                saveAllWords();
+
+                newHungarianWordInput.value = '';
+                newDutchWordInput.value = '';
+                newWordCategoryInput.value = ''; // Reset categorie input
+                showMessage(formMessage, `Woord "${newHungarian}" succesvol toegevoegd aan categorie "${newCategory}"!`, 'success');
+
+                // Update categorie dropdown en filter opnieuw
+                populateCategorySelect(); // Zorgt ervoor dat nieuwe categorieën verschijnen
+                filterWordsToLearn();
+                currentWordIndex = wordsToLearn.length - 1; // Ga naar het nieuw toegevoegde woord
+                displayCurrentWord();
+            });
+
+            // Event listener voor het resetten van gekende woorden
+            resetKnownWordsButton.addEventListener('click', function() {
+                if (isListeningModeActive) stopListeningMode(); // Stop luistermodus bij resetten
+
+                // Gebruik een custom modal in plaats van confirm()
+                const confirmReset = document.createElement('div');
+                confirmReset.classList.add('fixed', 'inset-0', 'bg-gray-600', 'bg-opacity-50', 'flex', 'items-center', 'justify-center', 'z-50');
+                confirmReset.innerHTML = `
+                    <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+                        <p class="text-lg font-semibold mb-4">Weet je zeker dat je alle gekende woorden wilt resetten?</p>
+                        <div class="flex justify-center space-x-4">
+                            <button id="confirm-reset-yes" class="btn btn-danger">Ja</button>
+                            <button id="confirm-reset-no" class="btn btn-secondary">Nee</button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(confirmReset);
+
+                document.getElementById('confirm-reset-yes').addEventListener('click', () => {
+                    allWords.forEach(word => word.known = false);
+                    saveAllWords();
+                    filterWordsToLearn();
+                    currentWordIndex = 0;
+                    displayCurrentWord();
+                    showMessage(resetMessage, "Alle gekende woorden zijn gereset!", 'success');
+                    confirmReset.remove();
+                });
+
+                document.getElementById('confirm-reset-no').addEventListener('click', () => {
+                    confirmReset.remove();
+                });
+            });
+
+            // Event listeners voor de nieuwe Luistermodus knoppen
+            startListeningButton.addEventListener('click', startListeningMode);
+            stopListeningButton.addEventListener('click', stopListeningMode);
+
+            // Event listener voor categorie selectie
+            categorySelect.addEventListener('change', function() {
+                if (isListeningModeActive) stopListeningMode(); // Stop luistermodus bij categorie wisselen
+
+                currentCategory = categorySelect.value;
+                localStorage.setItem('selectedHungarianCategory', currentCategory); // Sla de geselecteerde categorie op
+                filterWordsToLearn(); // Filter de lijst opnieuw
+                currentWordIndex = 0; // Begin bij het eerste woord van de nieuwe categorie
+                displayCurrentWord(); // Update de weergave
+            });
+
+            // Event listener voor spraaksnelheid selectie
+            speechRateSelect.addEventListener('change', function() {
+                currentSpeechRate = parseFloat(speechRateSelect.value);
+                localStorage.setItem('selectedHungarianSpeechRate', currentSpeechRate.toString()); // Sla de geselecteerde snelheid op
+                // Geen displayCurrentWord() nodig, want de snelheid wordt direct toegepast bij voorlezen
+            });
+
+            // Event listener voor pauzeduur selectie
+            pauseDurationSelect.addEventListener('change', function() {
+                currentPauseDuration = parseInt(pauseDurationSelect.value); // Lees als integer (milliseconden)
+                localStorage.setItem('selectedHungarianPauseDuration', currentPauseDuration.toString()); // Sla op
+                // Geen displayCurrentWord() nodig
+            });
+
+            // Event listener voor de Opties knop
+            optionsButton.addEventListener('click', function() {
+                optionsMenuContent.classList.toggle('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

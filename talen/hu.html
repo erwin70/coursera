@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hongaars Leren: Categorie Sorteerfix</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="css/style.css?v=202507262125"> 
+</head>
+<body class="font-sans bg-gradient-to-br from-blue-100 to-purple-100 text-gray-800 p-4 sm:p-6 md:p-8 min-h-screen flex flex-col justify-center items-center">
+    <div class="max-w-xl w-full bg-white shadow-xl rounded-2xl p-6 sm:p-8 text-center border-b-4 border-blue-500">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-800 mb-6">Hongaars Leren</h1>
+
+        <div class="select-wrapper w-full mb-8">
+            <label for="category-select" class="block text-sm font-medium text-gray-700 mb-1 text-left">Selecteer categorie:</label>
+            <select id="category-select" class="form-input"></select>
+        </div>
+
+        <div class="word-display mb-10 bg-blue-50 p-6 rounded-lg border border-blue-200">
+            <p id="hungarian-word" class="text-4xl sm:text-5xl font-bold text-blue-700 mb-4">Geen woorden om te leren</p>
+            <p id="dutch-word" class="text-2xl sm:text-3xl text-gray-700">No words left to learn</p>
+        </div>
+
+        <div class="flex flex-row flex-nowrap justify-around items-center space-x-2 mb-8 w-full">
+            <button id="prev-button" class="btn btn-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
+                    <path d="M11.9997 12.0001L18.3331 18.3334L16.9188 19.7477L8.58447 11.4134L16.9188 3.0791L18.3331 4.49335L11.9997 10.8267L11.9997 12.0001Z" />
+                    <path d="M5.66634 12.0001L11.9997 18.3334L10.5855 19.7477L2.2511 11.4134L10.5855 3.0791L11.9997 4.49335L5.66634 10.8267L5.66634 12.0001Z" />
+                </svg>
+            </button>
+            <button id="read-aloud-button" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
+                    <path d="M4 18H8L13 23V1L8 6H4V18ZM15 15.5C16.869 14.529 18 12.381 18 10C18 7.619 16.869 5.471 15 4.5V15.5ZM15 17.5V20C18.509 18.847 21 14.733 21 10C21 5.267 18.509 1.153 15 0V2.5C17.156 3.633 18.5 6.619 18.5 10C18.5 13.381 17.156 16.367 15 17.5Z" />
+                </svg>
+            </button>
+            <button id="next-button" class="btn btn-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
+                    <path d="M12.0003 12.0001L5.66699 5.66675L7.08124 4.2525L15.4156 12.5868L7.08124 20.9212L5.66699 19.5069L12.0003 13.1735V12.0001Z" />
+                    <path d="M18.3337 12.0001L12.0003 5.66675L13.4146 4.2525L21.7489 12.5868L13.4146 20.9212L12.0003 19.5069L18.3337 13.1735V12.0001Z" />
+                </svg>
+            </button>
+            <button id="mark-known-button" class="btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
+                    <path d="M14.6396 2.57143C14.0796 2.57143 13.5696 2.89286 13.2996 3.39286L8.49961 12.2857V21.4286H18.8567C19.6001 21.4286 20.2522 20.9099 20.4674 20.1772L22.4674 13.2486C22.6826 12.5159 22.3862 11.6964 21.7489 11.2321L17.2146 7.96429C16.893 7.73214 16.5173 7.60714 16.1303 7.60714H15.8567L14.6396 2.57143ZM4.57143 12.2857V21.4286H2.28571V12.2857H4.57143Z" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="flex flex-row flex-nowrap justify-center items-center space-x-4 mb-8 w-full">
+            <button id="start-listening-button" class="btn">
+                Start
+            </button>
+            <button id="stop-listening-button" class="btn btn-danger disabled">
+                Stop
+            </button>
+        </div>
+
+        <p class="text-sm text-gray-500 mb-8">
+            Woord <span id="current-index">0</span> van <span id="total-words">0</span>
+        </p>
+
+        <button id="options-button" class="btn btn-secondary w-full mb-8">
+            Opties
+        </button>
+
+        <div id="options-menu-content" class="space-y-8 hidden">
+            <div class="select-wrapper w-full">
+                <label for="speech-rate-select" class="block text-sm font-medium text-gray-700 mb-1 text-left">Spraaksnelheid:</label>
+                <select id="speech-rate-select" class="form-input"></select>
+            </div>
+
+            <div class="select-wrapper w-full">
+                <label for="pause-duration-select" class="block text-sm font-medium text-gray-700 mb-1 text-left">Pauze tussen woorden:</label>
+                <select id="pause-duration-select" class="form-input"></select>
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-gray-200">
+                <h2 class="text-2xl font-semibold text-blue-700 mb-4">Voeg een nieuw woord toe</h2>
+                <form id="add-word-form" class="space-y-4 text-left">
+                    <div>
+                        <label for="new-hungarian-word" class="block text-sm font-medium text-gray-700">Hongaars woord:</label>
+                        <input type="text" id="new-hungarian-word" class="form-input mt-1" placeholder="Bijv. Szia">
+                    </div>
+                    <div>
+                        <label for="new-dutch-word" class="block text-sm font-medium text-gray-700">Nederlands woord:</label>
+                        <input type="text" id="new-dutch-word" class="form-input mt-1" placeholder="Bijv. Hallo">
+                    </div>
+                    <div>
+                        <label for="new-word-category" class="block text-sm font-medium text-gray-700">Categorie:</label>
+                        <input type="text" id="new-word-category" class="form-input mt-1" placeholder="Bijv. Begroeting">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full">Woord toevoegen</button>
+                    <p id="form-message" class="message-box message-info hidden"></p>
+                </form>
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-gray-200">
+                <button id="reset-known-words-button" class="btn btn-danger w-full">
+                    Reset alle gekende woorden
+                </button>
+                <p id="reset-message" class="message-box message-info hidden"></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/script.js?v=202507262142"></script>
+</body>
+</html>

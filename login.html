@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inlogsysteem Demo</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s ease-in-out;
+        }
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            margin-bottom: 0.5rem;
+        }
+        button:hover {
+            transform: translateY(-1px);
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-secondary {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+        .btn-secondary:hover {
+            background-color: #e2e8f0;
+        }
+        .message {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        .message.success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .message.error {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+        /* Hidden by default */
+        .hidden {
+            display: none;
+        }
+        .content-section {
+            padding: 2rem;
+            border: 1px dashed #cbd5e1;
+            border-radius: 0.75rem;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-3xl font-bold mb-6 text-gray-800" id="form-title">Inloggen</h1>
+
+        <!-- Login Form -->
+        <div id="login-section">
+            <input type="text" id="login-username" placeholder="Gebruikersnaam of E-mail" autocomplete="username">
+            <input type="password" id="login-password" placeholder="Wachtwoord" autocomplete="current-password">
+            <button class="btn-primary" id="login-btn">Inloggen</button>
+            <p class="text-sm text-gray-600 mt-2">
+                Nog geen account? <a href="#" id="show-register" class="text-blue-600 hover:underline">Registreer hier</a>
+            </p>
+            <div id="login-message" class="message hidden"></div>
+        </div>
+
+        <!-- Register Form (hidden by default) -->
+        <div id="register-section" class="hidden">
+            <input type="text" id="register-username" placeholder="Kies een gebruikersnaam" autocomplete="new-username">
+            <input type="email" id="register-email" placeholder="E-mail (optioneel)" autocomplete="email">
+            <input type="password" id="register-password" placeholder="Kies een wachtwoord" autocomplete="new-password">
+            <input type="password" id="register-confirm-password" placeholder="Bevestig wachtwoord" autocomplete="new-password">
+            <button class="btn-primary" id="register-btn">Registreren</button>
+            <p class="text-sm text-gray-600 mt-2">
+                Al een account? <a href="#" id="show-login" class="text-blue-600 hover:underline">Log hier in</a>
+            </p>
+            <div id="register-message" class="message hidden"></div>
+        </div>
+
+        <!-- Protected Content (hidden by default) -->
+        <div id="protected-content" class="hidden content-section">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Welkom!</h2>
+            <p class="text-gray-600 mb-6">Je bent succesvol ingelogd, <span id="display-username" class="font-bold text-blue-600"></span>.</p>
+            <button class="btn-secondary" id="logout-btn">Uitloggen</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM elementen
+        const loginSection = document.getElementById('login-section');
+        const registerSection = document.getElementById('register-section');
+        const protectedContent = document.getElementById('protected-content');
+        const formTitle = document.getElementById('form-title');
+
+        const loginUsernameInput = document.getElementById('login-username');
+        const loginPasswordInput = document.getElementById('login-password');
+        const loginBtn = document.getElementById('login-btn');
+        const loginMessage = document.getElementById('login-message');
+        const showRegisterLink = document.getElementById('show-register');
+
+        const registerUsernameInput = document.getElementById('register-username');
+        const registerEmailInput = document.getElementById('register-email');
+        const registerPasswordInput = document.getElementById('register-password');
+        const registerConfirmPasswordInput = document.getElementById('register-confirm-password');
+        const registerBtn = document.getElementById('register-btn');
+        const registerMessage = document.getElementById('register-message');
+        const showLoginLink = document.getElementById('show-login');
+
+        const displayUsername = document.getElementById('display-username');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // --- Hulpfuncties ---
+
+        // Simuleer een eenvoudige wachtwoord hasher (NIET veilig voor productie!)
+        // In een echte app zou je een server-side hashing algoritme zoals bcrypt gebruiken.
+        function hashPassword(password) {
+            // Dit is een zeer simpele 'hash' voor demo doeleinden.
+            // Een echte hash is veel complexer en eenrichtingsverkeer.
+            return btoa(password).split('').reverse().join(''); // Base64 + reverse
+        }
+
+        function verifyPassword(password, hashedPassword) {
+            return hashPassword(password) === hashedPassword;
+        }
+
+        function showMessage(element, message, type) {
+            element.textContent = message;
+            element.className = `message ${type}`;
+            element.classList.remove('hidden');
+            setTimeout(() => {
+                element.classList.add('hidden');
+                element.textContent = '';
+            }, 3000); // Verberg bericht na 3 seconden
+        }
+
+        function showSection(sectionId) {
+            loginSection.classList.add('hidden');
+            registerSection.classList.add('hidden');
+            protectedContent.classList.add('hidden');
+
+            if (sectionId === 'login') {
+                loginSection.classList.remove('hidden');
+                formTitle.textContent = 'Inloggen';
+            } else if (sectionId === 'register') {
+                registerSection.classList.remove('hidden');
+                formTitle.textContent = 'Registreren';
+            } else if (sectionId === 'protected') {
+                protectedContent.classList.remove('hidden');
+                formTitle.textContent = 'Dashboard'; // Verander titel voor ingelogde status
+            }
+        }
+
+        function checkLoginStatus() {
+            // In een echte app zou je de sessie op de server valideren.
+            // Hier gebruiken we sessionStorage voor een simpele client-side check.
+            const loggedInUser = sessionStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                displayUsername.textContent = loggedInUser;
+                showSection('protected');
+            } else {
+                showSection('login');
+            }
+        }
+
+        // --- Event Listeners ---
+
+        showRegisterLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection('register');
+        });
+
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection('login');
+        });
+
+        registerBtn.addEventListener('click', () => {
+            const username = registerUsernameInput.value.trim();
+            const email = registerEmailInput.value.trim();
+            const password = registerPasswordInput.value.trim();
+            const confirmPassword = registerConfirmPasswordInput.value.trim();
+
+            if (!username || !password || !confirmPassword) {
+                showMessage(registerMessage, 'Vul alle verplichte velden in.', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage(registerMessage, 'Wachtwoorden komen niet overeen.', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage(registerMessage, 'Wachtwoord moet minimaal 6 tekens lang zijn.', 'error');
+                return;
+            }
+
+            // Simuleer controleren of gebruikersnaam al bestaat
+            // In een echte app doe je dit via een API call naar de server/database.
+            const users = JSON.parse(localStorage.getItem('users')) || {};
+            if (users[username]) {
+                showMessage(registerMessage, 'Gebruikersnaam is al in gebruik.', 'error');
+                return;
+            }
+
+            const hashedPassword = hashPassword(password);
+
+            // Sla gebruiker op in localStorage (Onveilig voor productie!)
+            users[username] = { username, email, password: hashedPassword };
+            localStorage.setItem('users', JSON.stringify(users));
+
+            showMessage(registerMessage, 'Registratie succesvol! Je kunt nu inloggen.', 'success');
+            // Leeg de velden na registratie
+            registerUsernameInput.value = '';
+            registerEmailInput.value = '';
+            registerPasswordInput.value = '';
+            registerConfirmPasswordInput.value = '';
+            // Schakel terug naar inlogscherm
+            setTimeout(() => {
+                showSection('login');
+            }, 1000);
+        });
+
+        loginBtn.addEventListener('click', () => {
+            const usernameOrEmail = loginUsernameInput.value.trim();
+            const password = loginPasswordInput.value.trim();
+
+            if (!usernameOrEmail || !password) {
+                showMessage(loginMessage, 'Vul gebruikersnaam/e-mail en wachtwoord in.', 'error');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || {};
+            let userFound = false;
+            let foundUser = null;
+
+            // Zoek naar gebruiker op gebruikersnaam of e-mail
+            for (const key in users) {
+                if (users[key].username === usernameOrEmail || users[key].email === usernameOrEmail) {
+                    userFound = true;
+                    foundUser = users[key];
+                    break;
+                }
+            }
+
+            if (!userFound || !verifyPassword(password, foundUser.password)) {
+                showMessage(loginMessage, 'Ongeldige gebruikersnaam/e-mail of wachtwoord.', 'error');
+                return;
+            }
+
+            // Simuleer inloggen door gebruikersnaam in sessionStorage op te slaan
+            // In een echte app zou dit een server-side sessie of een JWT token zijn.
+            sessionStorage.setItem('loggedInUser', foundUser.username);
+            displayUsername.textContent = foundUser.username;
+            showMessage(loginMessage, 'Succesvol ingelogd!', 'success');
+            loginUsernameInput.value = '';
+            loginPasswordInput.value = '';
+            setTimeout(() => {
+                showSection('protected');
+            }, 500);
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            // Verwijder de "ingelogde" status
+            sessionStorage.removeItem('loggedInUser');
+            showMessage(loginMessage, 'Je bent uitgelogd.', 'success');
+            showSection('login');
+        });
+
+        // Controleer inlogstatus wanneer de pagina laadt
+        document.addEventListener('DOMContentLoaded', checkLoginStatus);
+
+    </script>
+</body>
+</html>
