@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Polish: Menu Options</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #0056b3; /* Your blue color from the image */
+            font-weight: bold; /* Make it bold */
+        }
+        .word-display {
+            background-color: #e3f2fd; /* Light blue background from image */
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .word-display h2 {
+            color: #0056b3; /* Blue color for Polish word */
+            margin-bottom: 10px;
+            font-size: 2.5em; /* Larger font size for main word */
+            font-weight: bold;
+        }
+        .word-display p {
+            font-size: 1.5em; /* Larger font for translation */
+            color: #555;
+        }
+        .navigation-buttons button {
+            background-color: transparent; /* No background */
+            border: none; /* No border */
+            color: #6c757d; /* Grayish color for icons */
+            font-size: 3em; /* Large icon size */
+            padding: 0 15px; /* Spacing between icons */
+            cursor: pointer;
+            transition: color 0.2s;
+            margin: 0 10px; /* Adjust spacing */
+        }
+        .navigation-buttons button:hover:not(:disabled) {
+            color: #0056b3; /* Blue on hover */
+        }
+        .navigation-buttons button#mark-known-button {
+            color: #28a745; /* Green for thumbs-up */
+        }
+        .navigation-buttons button#mark-known-button:hover:not(:disabled) {
+            color: #218838; /* Darker green on hover */
+        }
+        .navigation-buttons button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .action-buttons button,
+        .listening-mode-buttons button {
+            margin: 5px;
+        }
+        .form-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .form-section h3 {
+            color: #0056b3;
+            margin-bottom: 15px;
+        }
+        .form-section input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        /* Message styles - using Bootstrap alerts directly now */
+        .hidden {
+            display: none;
+        }
+        .btn-disabled { /* Keep for JS, though Bootstrap handles some disabled styles */
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .options-menu-content {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-bottom: 20px; /* Added some bottom margin for spacing */
+        }
+        .options-menu-content label,
+        .options-menu-content select {
+            display: block;
+            margin-bottom: 10px;
+        }
+        /* Custom styles for icon-only buttons */
+        .icon-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            font-size: 3em; /* Example size */
+            color: #6c757d; /* Default icon color */
+            transition: color 0.2s ease-in-out;
+            /* Flexbox for alignment if needed */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-button:hover:not(:disabled) {
+            color: #0056b3; /* Hover color */
+        }
+        .icon-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Specific colors for specific icons from your image */
+        #read-aloud-button i {
+            color: #17a2b8; /* Info blue */
+        }
+        #mark-known-button i {
+            color: #28a745; /* Success green */
+        }
+        #read-aloud-button:hover:not(:disabled) i {
+             color: #138496; /* Darker info blue on hover */
+        }
+        #mark-known-button:hover:not(:disabled) i {
+            color: #218838; /* Darker success green on hover */
+        }
+
+        /* Styling for the section inside the options menu */
+        .options-menu-content .section-in-options {
+            padding-top: 15px;
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4 text-center">Polish-English Flashcards</h1>
+
+        <div class="mb-3">
+            <label for="category-select" class="form-label">Select Category:</label>
+            <select id="category-select" class="form-select"></select>
+        </div>
+
+        <div class="word-display">
+            <h2 id="polish-word">Loading...</h2>
+            <p id="english-word">Loading... </p>
+            <p><span id="current-index">0</span> / <span id="total-words">0</span></p>
+        </div>
+
+        <div class="d-flex justify-content-center navigation-buttons mb-3">
+            <button id="prev-button" class="icon-button"><i class="fas fa-chevron-left"></i></button>
+            <button id="read-aloud-button" class="icon-button"><i class="fas fa-volume-up"></i></button>
+            <button id="next-button" class="icon-button"><i class="fas fa-chevron-right"></i></button>
+            <button id="mark-known-button" class="icon-button"><i class="fas fa-thumbs-up"></i></button>
+        </div>
+
+        <div class="d-grid gap-2 d-md-block action-buttons mb-3 text-center">
+            <button id="reset-known-words-button" class="btn btn-warning">Reset Known Words</button>
+        </div>
+
+        <hr>
+
+        <div class="listening-mode-buttons mb-3 text-center">
+            <button id="start-listening-button" class="btn btn-primary">Start Listening Mode</button>
+            <button id="stop-listening-button" class="btn btn-danger" disabled>Stop Listening Mode</button>
+        </div>
+
+        <div id="form-message" class="alert mt-3 d-none"></div>
+        <div id="reset-message" class="alert mt-3 d-none"></div>
+
+        <hr>
+
+        <div class="options-section mt-4 text-center">
+            <button id="options-button" class="btn btn-secondary">Options (Speech, Pause, Add Word)</button>
+            <div id="options-menu-content" class="options-menu-content hidden">
+                <div class="mb-3">
+                    <label for="speech-rate-select" class="form-label">Speech Rate:</label>
+                    <select id="speech-rate-select" class="form-select"></select>
+                </div>
+                <div class="mb-3">
+                    <label for="pause-duration-select" class="form-label">Pause Duration (between words):</label>
+                    <select id="pause-duration-select" class="form-select"></select>
+                </div>
+
+                <div class="section-in-options"> <h3 class="text-center">Add New Word</h3>
+                    <form id="add-word-form">
+                        <div class="mb-3">
+                            <label for="new-polish-word" class="form-label">Polish Word:</label>
+                            <input type="text" class="form-control" id="new-polish-word" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="new-english-word" class="form-label">English Word:</label>
+                            <input type="text" class="form-control" id="new-english-word" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="new-word-category" class="form-label">Category (optional):</label>
+                            <input type="text" class="form-control" id="new-word-category" placeholder="e.g., Food, Travel">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Add Word</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Default word list (can be extended by users)
+        const defaultWordList = [
+            { hu: "tak", nl: "yes", known: false, category: "Basic" },
+            { hu: "nie", nl: "no", known: false, category: "Basic" },
+            { hu: "dziękuję", nl: "thank you", known: false, category: "Basic" },
+            { hu: "proszę", nl: "please / you're welcome", known: false, category: "Basic" },
+            { hu: "dzień dobry", nl: "good morning / good day", known: false, category: "Greetings" },
+            { hu: "dobry wieczór", nl: "good evening", known: false, category: "Greetings" },
+            { hu: "do widzenia", nl: "goodbye", known: false, category: "Greetings" },
+            { hu: "woda", nl: "water", known: false, category: "Food & Drink" },
+            { hu: "chleb", nl: "bread", known: false, category: "Food & Drink" },
+            { hu: "kawa", nl: "coffee", known: false, category: "Food & Drink" },
+            { hu: "piwo", nl: "beer", known: false, category: "Food & Drink" },
+            { hu: "stół", nl: "table", known: false, category: "Objects" },
+            { hu: "krzesło", nl: "chair", known: false, category: "Objects" },
+            { hu: "telefon", nl: "phone", known: false, category: "Objects" },
+            { hu: "gdzie jest?", nl: "where is?", known: false, category: "Questions" },
+            { hu: "ile kosztuje?", nl: "how much does it cost?", known: false, category: "Questions" },
+            { hu: "pomoc", nl: "help", known: false, category: "Basic" },
+            { hu: "bardzo", nl: "very", known: false, category: "Adverbs" },
+            { hu: "mały", nl: "small", known: false, category: "Adjectives" },
+            { hu: "duży", nl: "big", known: false, category: "Adjectives" },
+            { hu: "smaczny", nl: "delicious", known: false, category: "Food & Drink" },
+            { hu: "kocham cię", nl: "I love you", known: false, category: "Phrases" }
+        ];
+
+        let allWords = []; // All words, including known ones
+        let wordsToLearn = []; // Filtered list of unknown words (based on known & category)
+        let currentWordIndex = 0; // Index within wordsToLearn
+
+        let isListeningModeActive = false;
+        let listeningModeTimeoutId = null; // For the pause between words
+        const MAX_WORDS_IN_LISTENING_MODE = 25; // Maximum number of words in listening mode
+
+        let currentCategory = "All"; // Default selected category
+        let currentSpeechRate = 1.0; // Default speech rate
+        let currentPauseDuration = 1000; // Default pause duration in milliseconds (1 second)
+
+        // HTML elements
+        const polishWordEl = document.getElementById('polish-word');
+        const englishWordEl = document.getElementById('english-word');
+        const readAloudButton = document.getElementById('read-aloud-button');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const markKnownButton = document.getElementById('mark-known-button');
+        const resetKnownWordsButton = document.getElementById('reset-known-words-button');
+        const currentIndexEl = document.getElementById('current-index');
+        const totalWordsEl = document.getElementById('total-words');
+        const categorySelect = document.getElementById('category-select'); // Category select
+        const speechRateSelect = document.getElementById('speech-rate-select'); // Speech rate select
+        const pauseDurationSelect = document.getElementById('pause-duration-select'); // New pause duration select
+
+        // New Listening Mode buttons
+        const startListeningButton = document.getElementById('start-listening-button');
+        const stopListeningButton = document.getElementById('stop-listening-button');
+
+        // Form elements
+        const addWordForm = document.getElementById('add-word-form');
+        const newPolishWordInput = document.getElementById('new-polish-word');
+        const newEnglishWordInput = document.getElementById('new-english-word');
+        const newWordCategoryInput = document.getElementById('new-word-category'); // Category input
+        const formMessage = document.getElementById('form-message');
+        const resetMessage = document.getElementById('reset-message');
+
+        // Menu elements
+        const optionsButton = document.getElementById('options-button');
+        const optionsMenuContent = document.getElementById('options-menu-content');
+
+
+        const synth = window.speechSynthesis;
+        let voices = [];
+        let polishVoice = null;
+        let englishVoice = null;
+
+        // Check if speech synthesis is supported
+        if (!synth) {
+            readAloudButton.disabled = true;
+            readAloudButton.classList.add('btn-disabled');
+            // Removed textContent as it's an icon button now
+            startListeningButton.disabled = true;
+            startListeningButton.classList.add('btn-disabled');
+            showMessage(formMessage, "Speech synthesis is not supported in this browser. Adding words still works.", 'error');
+        }
+
+        /**
+         * Displays a message in the UI.
+         * @param {HTMLElement} element - The HTML element where the message should appear.
+         * @param {string} message - The text of the message.
+         * @param {string} type - The type of message ('success', 'error', 'info').
+         */
+        function showMessage(element, message, type) {
+            element.textContent = message;
+            // Reset classes: basis is 'alert', 'mt-3' for spacing, and 'd-none' is removed.
+            element.className = 'alert mt-3';
+
+            // Add the correct alert style
+            if (type === 'success') {
+                element.classList.add('alert-success');
+            } else if (type === 'error') {
+                element.classList.add('alert-danger');
+            } else {
+                element.classList.add('alert-info');
+            }
+
+            // Make the element visible
+            element.classList.remove('d-none');
+
+            setTimeout(() => {
+                element.classList.add('d-none'); // Hide message after 5 seconds
+            }, 5000);
+        }
+
+        /**
+         * Loads the word list from localStorage or uses the default list.
+         */
+        function loadAllWords() {
+            const storedWordList = localStorage.getItem('polishWords');
+            if (storedWordList) {
+                allWords = JSON.parse(storedWordList);
+                // Ensure all loaded words have a 'known' and 'category' property
+                allWords.forEach(word => {
+                    if (typeof word.known === 'undefined') word.known = false;
+                    if (typeof word.category === 'undefined') word.category = 'General'; // Default category
+                });
+            } else {
+                allWords = defaultWordList;
+                saveAllWords(); // Save the default list for the first time
+            }
+        }
+
+        /**
+         * Saves the entire word list to localStorage.
+         */
+        function saveAllWords() {
+            localStorage.setItem('polishWords', JSON.stringify(allWords));
+        }
+
+        /**
+         * Filters the word list to show only unknown words in the selected category.
+         */
+        function filterWordsToLearn() {
+            if (currentCategory === "All") {
+                wordsToLearn = allWords.filter(word => !word.known);
+            } else {
+                wordsToLearn = allWords.filter(word => !word.known && word.category === currentCategory);
+            }
+        }
+
+        /**
+         * Searches for and sets the specific voices 'Polish' and 'English'.
+         * Falls back to language code if the voice is not found.
+         */
+        function setSpecificVoices() {
+            voices = synth.getVoices();
+            // Try to find a Polish voice
+            polishVoice = voices.find(voice => voice.lang.startsWith('pl-PL'));
+            // Try to find an English voice
+            englishVoice = voices.find(voice => voice.lang.startsWith('en-US') || voice.lang.startsWith('en-GB'));
+
+            if (!polishVoice) {
+                console.warn("Polish voice not found. Falling back to default Polish voice.");
+            }
+            if (!englishVoice) {
+                console.warn("English voice not found. Falling back to default English voice.");
+            }
+        }
+
+        // Populate the voice list as soon as it's available
+        synth.onvoiceschanged = setSpecificVoices;
+        // Call it immediately if voices are already loaded
+        if (synth.getVoices().length > 0) {
+            setSpecificVoices();
+        }
+
+        /**
+         * Populates the category dropdown with unique categories from the word list.
+         */
+        function populateCategorySelect() {
+            const categories = new Set(allWords.map(word => word.category));
+            const sortedCategories = Array.from(categories).sort();
+
+            categorySelect.innerHTML = ''; // Clear the select
+
+            // Add 'All' option
+            const allOption = document.createElement('option');
+            allOption.value = "All";
+            allOption.textContent = "All";
+            categorySelect.appendChild(allOption);
+
+            // Add the unique categories
+            sortedCategories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categorySelect.appendChild(option);
+            });
+
+            // Select the last chosen category or 'All'
+            const savedCategory = localStorage.getItem('selectedPolishCategory');
+            if (savedCategory && Array.from(categorySelect.options).some(opt => opt.value === savedCategory)) {
+                categorySelect.value = savedCategory;
+                currentCategory = savedCategory;
+            } else {
+                categorySelect.value = "All";
+                currentCategory = "All";
+            }
+        }
+
+        /**
+         * Populates the speech rate dropdown with options.
+         */
+        function populateSpeechRateSelect() {
+            const rates = [0.2, 0.4, 0.6, 0.8, 1.0];
+            speechRateSelect.innerHTML = '';
+
+            rates.forEach(rate => {
+                const option = document.createElement('option');
+                option.value = rate.toString();
+                option.textContent = `${rate.toFixed(1)}x speed`;
+                speechRateSelect.appendChild(option);
+            });
+
+            const savedRate = localStorage.getItem('selectedPolishSpeechRate');
+            if (savedRate && Array.from(speechRateSelect.options).some(opt => opt.value === savedRate)) {
+                speechRateSelect.value = savedRate;
+                currentSpeechRate = parseFloat(savedRate);
+            } else {
+                speechRateSelect.value = '1.0';
+                currentSpeechRate = 1.0;
+            }
+        }
+
+        /**
+         * Populates the pause duration dropdown with options.
+         */
+        function populatePauseDurationSelect() {
+            const durations = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0];
+            pauseDurationSelect.innerHTML = '';
+
+            durations.forEach(duration => {
+                const option = document.createElement('option');
+                option.value = (duration * 1000).toString();
+                option.textContent = `${duration.toFixed(1)} second${duration === 1.0 ? '' : 's'}`;
+                pauseDurationSelect.appendChild(option);
+            });
+
+            const savedPause = localStorage.getItem('selectedPolishPauseDuration');
+            if (savedPause && Array.from(pauseDurationSelect.options).some(opt => opt.value === savedPause)) {
+                pauseDurationSelect.value = savedPause;
+                currentPauseDuration = parseInt(savedPause);
+            } else {
+                pauseDurationSelect.value = '1000';
+                currentPauseDuration = 1000;
+            }
+        }
+
+        /**
+         * Displays the current word pair on the page.
+         * Adjusts the UI if there are no words to learn in the current selection.
+         */
+        function displayCurrentWord() {
+            if (wordsToLearn.length === 0) {
+                polishWordEl.textContent = "No words to learn in this category!";
+                englishWordEl.textContent = "No words left to learn in this category!";
+                currentIndexEl.textContent = 0;
+                totalWordsEl.textContent = 0;
+                // Disable all action buttons
+                readAloudButton.disabled = true;
+                prevButton.disabled = true;
+                nextButton.disabled = true;
+                markKnownButton.disabled = true;
+                startListeningButton.disabled = true;
+                // Keep addWordForm enabled, it's now inside options and not directly affected by word count
+                // addWordForm.querySelector('button[type="submit"]').disabled = false;
+
+                readAloudButton.classList.add('btn-disabled');
+                prevButton.classList.add('btn-disabled');
+                nextButton.classList.add('btn-disabled');
+                markKnownButton.classList.add('btn-disabled');
+                startListeningButton.classList.add('btn-disabled');
+                return;
+            }
+
+            // Ensure the index stays within bounds
+            if (currentWordIndex >= wordsToLearn.length) {
+                currentWordIndex = wordsToLearn.length - 1;
+            }
+            if (currentWordIndex < 0) {
+                currentWordIndex = 0;
+            }
+
+            const wordPair = wordsToLearn[currentWordIndex];
+            polishWordEl.textContent = wordPair.hu;
+            englishWordEl.textContent = wordPair.nl;
+            currentIndexEl.textContent = currentWordIndex + 1; // +1 for 1-based index
+            totalWordsEl.textContent = wordsToLearn.length;
+
+            // Update button states
+            readAloudButton.disabled = false;
+            markKnownButton.disabled = false;
+            startListeningButton.disabled = false; // Enable listening mode if there are words
+
+            readAloudButton.classList.remove('btn-disabled');
+            markKnownButton.classList.remove('btn-disabled');
+            startListeningButton.classList.remove('btn-disabled');
+
+            prevButton.disabled = currentWordIndex === 0;
+            if (prevButton.disabled) {
+                prevButton.classList.add('btn-disabled');
+            } else {
+                prevButton.classList.remove('btn-disabled');
+            }
+
+            nextButton.disabled = currentWordIndex === wordsToLearn.length - 1;
+            if (nextButton.disabled) {
+                nextButton.classList.add('btn-disabled');
+            } else {
+                nextButton.classList.remove('btn-disabled');
+            }
+
+            // Ensure stop button is only active in listening mode
+            stopListeningButton.disabled = !isListeningModeActive;
+            if (stopListeningButton.disabled) {
+                stopListeningButton.classList.add('btn-disabled');
+            } else {
+                stopListeningButton.classList.remove('btn-disabled');
+            }
+        }
+
+        /**
+         * Reads the Polish word aloud, followed by the English word.
+         */
+        function speakWords() {
+            if (!synth || synth.speaking || wordsToLearn.length === 0) {
+                return;
+            }
+
+            const polishWord = wordsToLearn[currentWordIndex].hu;
+            const englishWord = wordsToLearn[currentWordIndex].nl;
+
+            const utterThisPolish = new SpeechSynthesisUtterance(polishWord);
+            if (polishVoice) {
+                utterThisPolish.voice = polishVoice;
+            } else {
+                utterThisPolish.lang = 'pl-PL'; // Fallback to language code if voice not found
+            }
+            utterThisPolish.rate = currentSpeechRate; // Set speech rate
+
+            const utterThisEnglish = new SpeechSynthesisUtterance(englishWord);
+            if (englishVoice) {
+                utterThisEnglish.voice = englishVoice;
+            } else {
+                utterThisEnglish.lang = 'en-US'; // Fallback to language code if voice not found
+            }
+            utterThisEnglish.rate = currentSpeechRate; // Set speech rate
+
+            utterThisPolish.onend = () => {
+                synth.speak(utterThisEnglish);
+            };
+
+            synth.speak(utterThisPolish);
+        }
+
+        /**
+         * Plays the next word pair in listening mode.
+         * Calls itself recursively after a pause.
+         */
+        function playNextWordInSequence() {
+            if (!isListeningModeActive || !synth) {
+                return; // Stop if mode is not active or synth is not available
+            }
+
+            // Determine the words to be played in this loop (first 25 or fewer)
+            const wordsForThisLoop = wordsToLearn.slice(0, MAX_WORDS_IN_LISTENING_MODE);
+
+            if (wordsForThisLoop.length === 0) {
+                stopListeningMode();
+                showMessage(formMessage, "No words to learn in listening mode for this category.", 'info');
+                return;
+            }
+
+            // Reset the index if we reach the end of the current loop
+            if (currentWordIndex >= wordsForThisLoop.length) {
+                currentWordIndex = 0;
+            }
+
+            const wordPair = wordsForThisLoop[currentWordIndex];
+            polishWordEl.textContent = wordPair.hu; // Update UI to show the current word
+            englishWordEl.textContent = wordPair.nl;
+            currentIndexEl.textContent = (currentWordIndex + 1) + ' (Loop)'; // Custom index counter for loop
+            totalWordsEl.textContent = wordsForThisLoop.length;
+
+            const polishWord = wordPair.hu;
+            const englishWord = wordPair.nl;
+
+            const utterThisPolish = new SpeechSynthesisUtterance(polishWord);
+            if (polishVoice) {
+                utterThisPolish.voice = polishVoice;
+            } else {
+                utterThisPolish.lang = 'pl-PL';
+            }
+            utterThisPolish.rate = currentSpeechRate; // Set speech rate
+
+            const utterThisEnglish = new SpeechSynthesisUtterance(englishWord);
+            if (englishVoice) {
+                utterThisEnglish.voice = englishVoice;
+            } else {
+                utterThisEnglish.lang = 'en-US';
+            }
+            utterThisEnglish.rate = currentSpeechRate; // Set speech rate
+
+            utterThisPolish.onend = () => {
+                synth.speak(utterThisEnglish);
+            };
+
+            utterThisEnglish.onend = () => {
+                // Pause for the chosen duration before the next word starts
+                listeningModeTimeoutId = setTimeout(() => {
+                    currentWordIndex++; // Go to the next word
+                    playNextWordInSequence(); // Call itself again
+                }, currentPauseDuration); // Use the selected pause duration
+            };
+
+            synth.speak(utterThisPolish);
+        }
+
+        /**
+         * Starts listening mode.
+         */
+        function startListeningMode() {
+            if (wordsToLearn.length === 0 || isListeningModeActive) {
+                if (wordsToLearn.length === 0) {
+                    showMessage(formMessage, "No words to learn in listening mode for this category. Add words or reset known words.", 'info');
+                }
+                return;
+            }
+
+            synth.cancel(); // Cancel any ongoing speech
+            clearTimeout(listeningModeTimeoutId); // Clear any ongoing timeouts
+
+            isListeningModeActive = true;
+            currentWordIndex = 0; // Always start at the first word in the filtered list
+
+            // Disable buttons during listening mode
+            readAloudButton.disabled = true;
+            prevButton.disabled = true;
+            nextButton.disabled = true;
+            markKnownButton.disabled = true;
+            startListeningButton.disabled = true;
+            // The add word submit button is now handled by options visibility
+            // addWordForm.querySelector('button[type="submit"]').disabled = true;
+            speechRateSelect.disabled = true; // Disable speed selection
+            pauseDurationSelect.disabled = true; // Disable pause duration selection
+            categorySelect.disabled = true; // Disable category selection
+            optionsButton.disabled = true; // Disable options button
+
+            readAloudButton.classList.add('btn-disabled');
+            prevButton.classList.add('btn-disabled');
+            nextButton.classList.add('btn-disabled');
+            markKnownButton.classList.add('btn-disabled');
+            startListeningButton.classList.add('btn-disabled');
+            // addWordForm.querySelector('button[type="submit"]').classList.add('btn-disabled');
+            speechRateSelect.classList.add('btn-disabled'); // Add disabled styling
+            pauseDurationSelect.classList.add('btn-disabled'); // Add disabled styling
+            categorySelect.classList.add('btn-disabled'); // Add disabled styling
+            optionsButton.classList.add('btn-disabled'); // Add disabled styling
+
+            stopListeningButton.disabled = false;
+            stopListeningButton.classList.remove('btn-disabled');
+
+            // Hide options menu if open when listening mode starts
+            if (!optionsMenuContent.classList.contains('hidden')) {
+                optionsMenuContent.classList.add('hidden');
+            }
+
+            showMessage(formMessage, `Listening mode started. Repeating the first ${Math.min(wordsToLearn.length, MAX_WORDS_IN_LISTENING_MODE)} unknown words.`, 'info');
+
+            displayCurrentWord(); // Update UI to show the first word of the sequence
+            playNextWordInSequence();
+        }
+
+        /**
+         * Stops listening mode.
+         */
+        function stopListeningMode() {
+            if (!isListeningModeActive) {
+                return;
+            }
+
+            isListeningModeActive = false;
+            synth.cancel(); // Stop speaking immediately
+            clearTimeout(listeningModeTimeoutId); // Clear any timeouts
+
+            // Re-enable buttons
+            readAloudButton.disabled = false;
+            prevButton.disabled = false;
+            nextButton.disabled = false;
+            markKnownButton.disabled = false;
+            startListeningButton.disabled = false;
+            // The add word submit button is now handled by options visibility
+            // addWordForm.querySelector('button[type="submit"]').disabled = false;
+            speechRateSelect.disabled = false; // Re-enable speed selection
+            pauseDurationSelect.disabled = false; // Re-enable pause duration selection
+            categorySelect.disabled = false; // Re-enable category selection
+            optionsButton.disabled = false; // Re-enable options button
+
+            readAloudButton.classList.remove('btn-disabled');
+            prevButton.classList.remove('btn-disabled');
+            nextButton.classList.remove('btn-disabled');
+            markKnownButton.classList.remove('btn-disabled');
+            startListeningButton.classList.remove('btn-disabled');
+            // addWordForm.querySelector('button[type="submit"]').classList.remove('btn-disabled');
+            speechRateSelect.classList.remove('btn-disabled'); // Remove disabled styling
+            pauseDurationSelect.classList.remove('btn-disabled'); // Remove disabled styling
+            categorySelect.classList.remove('btn-disabled'); // Remove disabled styling
+            optionsButton.classList.remove('btn-disabled'); // Remove disabled styling
+
+            stopListeningButton.disabled = true;
+            stopListeningButton.classList.add('btn-disabled');
+
+            showMessage(formMessage, "Listening mode stopped.", 'info');
+            // Reset currentWordIndex to 0 of the filtered list for normal display
+            currentWordIndex = 0;
+            displayCurrentWord(); // Ensure UI shows correct state after stopping
+        }
+
+        // Initialize the app
+        loadAllWords();
+        populateCategorySelect();
+        populateSpeechRateSelect();
+        populatePauseDurationSelect();
+        filterWordsToLearn();
+        displayCurrentWord();
+
+        // Event listeners for navigation and read aloud
+        readAloudButton.addEventListener('click', speakWords);
+
+        prevButton.addEventListener('click', function() {
+            if (isListeningModeActive) stopListeningMode();
+            if (currentWordIndex > 0) {
+                currentWordIndex--;
+                displayCurrentWord();
+                synth.cancel();
+            }
+        });
+
+        nextButton.addEventListener('click', function() {
+            if (isListeningModeActive) stopListeningMode();
+            if (currentWordIndex < wordsToLearn.length - 1) {
+                currentWordIndex++;
+                displayCurrentWord();
+                synth.cancel();
+            }
+        });
+
+        // Event listener for "I know this word!"
+        markKnownButton.addEventListener('click', function() {
+            if (isListeningModeActive) stopListeningMode();
+
+            if (wordsToLearn.length === 0) {
+                showMessage(formMessage, "No more words to mark.", 'info');
+                return;
+            }
+
+            const currentWordPair = wordsToLearn[currentWordIndex];
+            const originalWord = allWords.find(word => word.hu === currentWordPair.hu && word.nl === currentWordPair.nl);
+
+            if (originalWord) {
+                originalWord.known = true;
+                saveAllWords();
+                showMessage(formMessage, `"${originalWord.hu}" marked as known!`, 'success');
+            }
+
+            filterWordsToLearn();
+            if (wordsToLearn.length > 0) {
+                if (currentWordIndex >= wordsToLearn.length) {
+                    currentWordIndex = wordsToLearn.length - 1;
+                }
+                displayCurrentWord();
+            } else {
+                displayCurrentWord();
+            }
+            synth.cancel();
+        });
+
+        // Event listener for adding a new word
+        addWordForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (isListeningModeActive) stopListeningMode();
+
+            const newPolish = newPolishWordInput.value.trim();
+            const newEnglish = newEnglishWordInput.value.trim();
+            const newCategory = newWordCategoryInput.value.trim() || "General";
+
+            if (newPolish === '' || newEnglish === '') {
+                showMessage(formMessage, "Polish word and English word must be filled in!", 'error');
+                return;
+            }
+
+            allWords.push({ hu: newPolish, nl: newEnglish, known: false, category: newCategory });
+            saveAllWords();
+
+            newPolishWordInput.value = '';
+            newEnglishWordInput.value = '';
+            newWordCategoryInput.value = '';
+            showMessage(formMessage, `Word "${newPolish}" successfully added to category "${newCategory}"!`, 'success');
+
+            populateCategorySelect();
+            filterWordsToLearn();
+            currentWordIndex = wordsToLearn.length - 1;
+            displayCurrentWord();
+        });
+
+        // Event listener for resetting known words
+        resetKnownWordsButton.addEventListener('click', function() {
+            if (isListeningModeActive) stopListeningMode();
+
+            const confirmReset = document.createElement('div');
+            confirmReset.classList.add('fixed', 'inset-0', 'bg-gray-600', 'bg-opacity-50', 'd-flex', 'align-items-center', 'justify-content-center', 'z-50');
+            confirmReset.innerHTML = `
+                <div class="bg-white p-4 rounded shadow-lg text-center">
+                    <p class="fs-5 fw-semibold mb-3">Are you sure you want to reset all known words?</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button id="confirm-reset-yes" class="btn btn-danger">Yes</button>
+                        <button id="confirm-reset-no" class="btn btn-secondary">No</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmReset);
+
+            document.getElementById('confirm-reset-yes').addEventListener('click', () => {
+                allWords.forEach(word => word.known = false);
+                saveAllWords();
+                filterWordsToLearn();
+                currentWordIndex = 0;
+                displayCurrentWord();
+                showMessage(resetMessage, "All known words have been reset!", 'success');
+                confirmReset.remove();
+            });
+
+            document.getElementById('confirm-reset-no').addEventListener('click', () => {
+                confirmReset.remove();
+            });
+        });
+
+        // Event listeners for the new Listening Mode buttons
+        startListeningButton.addEventListener('click', startListeningMode);
+        stopListeningButton.addEventListener('click', stopListeningMode);
+
+        // Event listener for category selection
+        categorySelect.addEventListener('change', function() {
+            if (isListeningModeActive) stopListeningMode();
+
+            currentCategory = categorySelect.value;
+            localStorage.setItem('selectedPolishCategory', currentCategory);
+            filterWordsToLearn();
+            currentWordIndex = 0;
+            displayCurrentWord();
+        });
+
+        // Event listener for speech rate selection
+        speechRateSelect.addEventListener('change', function() {
+            currentSpeechRate = parseFloat(speechRateSelect.value);
+            localStorage.setItem('selectedPolishSpeechRate', currentSpeechRate.toString());
+        });
+
+        // Event listener for pause duration selection
+        pauseDurationSelect.addEventListener('change', function() {
+            currentPauseDuration = parseInt(pauseDurationSelect.value);
+            localStorage.setItem('selectedPolishPauseDuration', currentPauseDuration.toString());
+        });
+
+        // Event listener for the Options button
+        optionsButton.addEventListener('click', function() {
+            optionsMenuContent.classList.toggle('hidden');
+        });
+    </script>
+
+</body>
+</html>

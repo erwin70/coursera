@@ -1,0 +1,92 @@
+Als je met VS Code en Strato wilt werken via FTP (of beter, SFTP), dan heb je een extensie nodig, aangezien VS Code dit niet standaard ingebouwd heeft. SFTP (SSH File Transfer Protocol) is sterk aanbevolen boven FTP, omdat het een versleutelde verbinding gebruikt en dus veiliger is. Strato ondersteunt doorgaans SFTP.
+
+Hier zijn de stappen en aanbevolen extensies:
+
+Aanbevolen Extensie: SFTP (door Natizyskunk of liximomo)
+
+Dit is een van de meest populaire en robuuste SFTP-extensies voor VS Code.
+
+1. Installatie van de SFTP-extensie:
+
+Open VS Code.
+
+Ga naar de Extensions-weergave (Ctrl+Shift+X of klik op het blokjes-icoon aan de linkerkant).
+
+Zoek naar "SFTP" (er zijn er een paar, die van Natizyskunk of liximomo zijn veelgebruikt en goed).
+
+Klik op "Install".
+
+2. Configuratie van de SFTP-verbinding voor Strato:
+
+Open je projectmap in VS Code. Dit is belangrijk, want de configuratie wordt opgeslagen in een .vscode map binnen je project.
+
+Druk op Ctrl+Shift+P (of Cmd+Shift+P op Mac) om het Command Palette te openen.
+
+Typ SFTP: config en selecteer deze optie.
+
+Er wordt nu een bestand sftp.json aangemaakt (of geopend als het al bestaat) in de .vscode map van je project.
+
+Bewerk dit sftp.json bestand met je Strato-gegevens. Hier is een voorbeeldconfiguratie die je kunt aanpassen:
+
+JSON
+
+[
+  {
+    "name": "Mijn Strato Website", // Een naam voor je verbinding (mag je zelf kiezen)
+    "host": "ftp.strato.com", // Dit is de FTP/SFTP server van Strato
+    "protocol": "sftp", // Gebruik SFTP voor veiligheid!
+    "port": 22, // Standaard SFTP poort
+    "username": "jouw_strato_gebruikersnaam", // Meestal je domeinnaam zonder www. of de specifieke FTP-gebruikersnaam die je bij Strato hebt aangemaakt.
+    "password": "jouw_strato_hoofdwachtwoord_of_ftp_wachtwoord", // Je Strato hoofdwachtwoord of het wachtwoord van de FTP-gebruiker.
+    "remotePath": "/htdocs/", // Het pad op je Strato server waar je bestanden naartoe moeten (meestal is dit /htdocs/, maar kan verschillen).
+    "uploadOnSave": true, // Optioneel: upload automatisch wanneer je een bestand opslaat.
+    "ignore": [ // Optioneel: negeer bepaalde mappen/bestanden bij synchronisatie.
+      ".vscode",
+      ".git",
+      ".DS_Store"
+    ]
+  }
+]
+Belangrijke opmerkingen over Strato-gegevens:
+
+Host: ftp.strato.com is de gebruikelijke server.
+
+Username: Dit is vaak je domeinnaam (bijv. mijndomein.nl zonder www.) of een specifieke FTP-gebruikersnaam die je in de Strato klantenomgeving hebt ingesteld. Controleer dit in je Strato-account.
+
+Password: Dit is meestal het hoofdwachtwoord van je Strato-account, of het specifieke wachtwoord voor de FTP-gebruiker.
+
+remotePath: Het "webroot" pad op Strato is vaak /htdocs/. Als je subdomeinen of andere configuraties hebt, kan dit anders zijn.
+
+Port: Voor SFTP is de standaardpoort 22. Voor gewoon FTP is het 21. Gebruik 22 met protocol: "sftp".
+
+Beveiliging: Hoewel je het wachtwoord direct in sftp.json kunt zetten, is dit niet de meest veilige methode, vooral als je het project deelt. Sommige SFTP-extensies ondersteunen ook SSH-sleutels, wat veiliger is. Echter, voor de meeste individuele gebruikers volstaat de wachtwoordmethode, zolang je het bestand niet publiekelijk deelt.
+
+3. Gebruik van de SFTP-extensie:
+
+Na het configureren kun je de volgende commando's gebruiken (via Ctrl+Shift+P):
+
+SFTP: Upload File: Uploadt het huidig geopende bestand naar de server.
+
+SFTP: Upload Folder: Uploadt de hele lokale map (je projectmap) naar de server. Wees hier voorzichtig mee!
+
+SFTP: Download File: Downloadt een bestand van de server naar je lokale machine.
+
+SFTP: Download Folder: Downloadt een hele map van de server. Handig om je project de eerste keer lokaal te krijgen.
+
+SFTP: Sync Local -> Remote: Synchroniseert je lokale wijzigingen met de server (uploadt alleen gewijzigde/nieuwe bestanden).
+
+SFTP: Sync Remote -> Local: Synchroniseert de server met je lokale machine (downloadt wijzigingen van de server).
+
+SFTP: Edit in Local: Hiermee kun je een bestand op de server openen en lokaal bewerken, waarna het automatisch wordt geüpload bij opslaan (als uploadOnSave is ingesteld).
+
+Belangrijke tips:
+
+Begin klein: Begin met het downloaden van je huidige htdocs map naar een lege lokale map. Zo heb je een back-up en een startpunt.
+
+uploadOnSave: Dit is superhandig, maar wees je bewust van de directe impact op je live website. Als je aan een kritieke site werkt, kun je dit uitzetten en handmatig uploaden wanneer je zeker bent van je wijzigingen.
+
+Versiebeheer: Overweeg het gebruik van Git (met GitHub/GitLab/Bitbucket) voor versiebeheer. Dit helpt enorm bij het bijhouden van wijzigingen, samenwerken en teruggaan naar eerdere versies, onafhankelijk van je FTP/SFTP-verbinding.
+
+Strato klantenpaneel: Raadpleeg altijd de documentatie van Strato in hun klantenpaneel voor de meest actuele en specifieke FTP/SFTP-gegevens en instellingen voor jouw hostingpakket.
+
+Door deze stappen te volgen, kun je efficiënt je bestanden op je Strato-webruimte beheren vanuit VS Code.
